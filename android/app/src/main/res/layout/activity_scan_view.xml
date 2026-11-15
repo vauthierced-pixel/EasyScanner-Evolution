@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/daoExport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dao_export_button"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/cloudFrame"
         android:layout_width="match_parent"
