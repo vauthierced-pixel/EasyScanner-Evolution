@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#08080A"
+    android:background="@color/evo_background"
     android:fitsSystemWindows="true">
 
     <FrameLayout
@@ -30,11 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:background="#B308080A"
+            android:background="@drawable/bg_evo_hud"
             android:fontFamily="monospace"
-            android:padding="6dp"
-            android:textColor="#FAFAFA"
-            android:textSize="10sp" />
+            android:padding="9dp"
+            android:textColor="@color/evo_text"
+            android:textSize="11sp" />
 
         <ImageButton
             android:id="@+id/settingsButton"
@@ -42,7 +42,8 @@
             android:layout_height="44dp"
             android:layout_gravity="top|end"
             android:layout_margin="6dp"
-            android:background="#B308080A"
+            android:background="@drawable/bg_evo_icon"
+            android:tint="@color/evo_primary"
             android:contentDescription="@string/settings"
             android:src="@android:drawable/ic_menu_preferences" />
 
@@ -53,7 +54,8 @@
             android:layout_gravity="top|end"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="56dp"
-            android:background="#B308080A"
+            android:background="@drawable/bg_evo_icon"
+            android:tint="@color/evo_primary"
             android:contentDescription="@string/library"
             android:src="@android:drawable/ic_menu_gallery" />
     </FrameLayout>
@@ -62,7 +64,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:background="@drawable/bg_evo_panel"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +82,9 @@
             android:id="@+id/stepTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:textColor="#FAFAFA"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/evo_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -130,7 +134,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingTop="6dp"
-            android:textColor="#D8D4D4"
+            android:textColor="@color/evo_text"
             android:textSize="13sp" />
 
         <LinearLayout
