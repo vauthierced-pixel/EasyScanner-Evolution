@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Easy Scanner</string>
+    <string name="app_name">EasyScanner Evolution</string>
     <string name="settings">Settings</string>
 
     <string name="mode_view">View</string>
@@ -146,4 +146,14 @@
     <string name="camera_diag_hud_note">See the scanner overlay for actual analysis resolution and measured FPS. These are not the sensor\'s advertised megapixels.</string>
     <string name="camera_diag_error">Camera data unavailable: %1$s</string>
     <string name="camera_diag_unknown">not reported</string>
+
+    <!-- Compact live scanner status; tap overlay to expand advanced diagnostics. -->
+    <string name="hud_board_ok">Board detected</string>
+    <string name="hud_board_search">Looking for board</string>
+    <string name="hud_laser_off">Laser inactive</string>
+    <string name="hud_laser_search">Looking for laser line</string>
+    <string name="hud_laser_ok">Laser line detected</string>
+    <string name="hud_points">%1$d pts</string>
+    <string name="hud_tap_details">Tap for technical details</string>
+    <string name="hud_tap_close">Tap to reduce technical details</string>
 </resources>
