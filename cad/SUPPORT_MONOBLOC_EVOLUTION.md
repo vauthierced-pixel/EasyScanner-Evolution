@@ -2,6 +2,12 @@
 
 ## Nouveau : version renforcée pour Redmi Note 14 Pro (4G et 5G)
 
+![Rendu 3D du support renforcé pour Redmi Note 14 Pro](https://raw.githubusercontent.com/vauthierced-pixel/EasyScanner-Evolution/main/docs/images/support_monobloc_redmi_note14pro.webp)
+
+*Rendu illustratif enregistré dans le dépôt GitHub ; la pièce imprimée et son maintien mécanique restent à tester.*
+
+
+
 Le premier cadre générique paraissait trop léger pour maintenir rigidement la géométrie laser/caméra. Une **deuxième conception**, entièrement indépendante du modèle initial, est disponible ici :
 
 **[Source CadQuery renforcée pour Redmi Note 14 Pro](models/support_monobloc_redmi_note14pro_renforce.py)**.
