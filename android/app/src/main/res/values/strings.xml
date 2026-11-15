@@ -117,4 +117,15 @@
     <string name="cloud_points_thinned">%1$,d points, showing %2$,d</string>
     <string name="photo">Scan photo</string>
     <string name="photo_counter">%1$d / %2$d  %3$s</string>
+
+    <!-- Evolution: metric cloud export to CAD -->
+    <string name="dao_export_button">Export for CAD (XYZ / CSV)</string>
+    <string name="dao_export_title">Choose export format</string>
+    <string name="dao_xyz_full">XYZ — all valid points</string>
+    <string name="dao_xyz_grid">XYZ — 1 mm voxel reduction</string>
+    <string name="dao_csv_full">CSV — all valid points</string>
+    <string name="dao_csv_grid">CSV — 1 mm voxel reduction</string>
+    <string name="dao_exporting">Exporting…</string>
+    <string name="dao_export_done">Exported %1$,d / %2$,d points to Downloads/EasyScanner/DAO</string>
+    <string name="dao_export_failed">CAD export failed: %1$s</string>
 </resources>

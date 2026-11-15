@@ -30,11 +30,11 @@ android {
     ndkVersion = ndkVersionPinned
 
     defaultConfig {
-        applicationId = "com.rawmechatronics.easyscanner"
+        applicationId = "com.rawmechatronics.easyscanner.evolution"
         minSdk = rustApi
         targetSdk = 36
-        versionCode = 5
-        versionName = "0.3.1"
+        versionCode = 6
+        versionName = "0.3.1-evolution.2"
         ndk { abiFilters += rustAbis }
     }
 
