@@ -1,0 +1,54 @@
+name: Support monobloc - fichiers 3D
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - prototype-support-monobloc
+    paths:
+      - cad/models/support_monobloc_evolution.py
+      - cad/models/support_monobloc_redmi_note14pro_renforce.py
+      - .github/workflows/support-monobloc.yml
+
+permissions:
+  contents: read
+
+jobs:
+  model-3d:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installer CadQuery
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "cadquery>=2.6,<3"
+
+      - name: Générer STL et STEP du prototype
+        run: |
+          python cad/models/support_monobloc_evolution.py --sortie cad/monobloc-output/
+          python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 4g --sortie cad/monobloc-output/
+          python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 5g --sortie cad/monobloc-output/
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_4g_RENFORCE.stl
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_4g_RENFORCE.step
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_5g_RENFORCE.stl
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_5g_RENFORCE.step
+          test -s cad/monobloc-output/EasyScanner_Evolution_support_monobloc_prototype.stl
+          test -s cad/monobloc-output/EasyScanner_Evolution_support_monobloc_prototype.step
+
+      - name: Télécharger les fichiers 3D
+        uses: actions/upload-artifact@v4
+        with:
+          name: EasyScanner-Supports-Monobloc-Redmi-4G-5G-STL-STEP
+          path: |
+            cad/monobloc-output/*.stl
+            cad/monobloc-output/*.step
+          if-no-files-found: error
+          retention-days: 30
