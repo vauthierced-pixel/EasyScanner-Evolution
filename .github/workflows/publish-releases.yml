@@ -1,0 +1,63 @@
+# First publish three already verified Android APKs, then allow manual new releases.
+name: Publier un APK permanent (Releases)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version de l application (ex. 0.3.1-evolution.4)'
+        required: true
+        type: string
+      build_run_id:
+        description: 'Identifiant de la compilation Android réussie (dans l URL GitHub)'
+        required: true
+        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publish-releases.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: publish-releases
+  cancel-in-progress: false
+
+jobs:
+  publish-initial-versions:
+    name: Publier les trois premières versions
+    if: github.event_name == 'push' && github.repository == 'vauthierced-pixel/EasyScanner-Evolution'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Récupérer le script de publication
+        uses: actions/checkout@v4
+
+      - name: Publier les APK déjà compilés
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          VERSION=0.3.1-evolution.1 RUN_ID=43697031317 MARK_LATEST=false bash scripts/publish-release.sh
+          VERSION=0.3.1-evolution.2 RUN_ID=43701549566 MARK_LATEST=false bash scripts/publish-release.sh
+          VERSION=0.3.1-evolution.3 RUN_ID=43723209578 MARK_LATEST=true bash scripts/publish-release.sh
+
+  publish-one-version:
+    name: Publier une nouvelle version
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'vauthierced-pixel/EasyScanner-Evolution'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Récupérer le script de publication
+        uses: actions/checkout@v4
+
+      - name: Publier l APK sélectionné
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          RUN_ID: ${{ inputs.build_run_id }}
+          MARK_LATEST: 'true'
+        shell: bash
+        run: |
+          bash scripts/publish-release.sh
