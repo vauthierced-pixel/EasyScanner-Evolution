@@ -39,7 +39,7 @@ jobs:
       - name: Récupérer la branche de publication Evolution
         uses: actions/checkout@v4
         with:
-          ref: evolution-signature-privee
+          ref: evolution-signature-stable
           persist-credentials: false
 
       - name: Valider la version et la branche
