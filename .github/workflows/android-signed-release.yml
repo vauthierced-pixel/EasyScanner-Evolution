@@ -1,0 +1,180 @@
+# Manual and owner-only: Android release APK signed with a stable private key.
+# Uses a dedicated trusted branch, not pull-request code.
+# The four repository secrets must be created by the owner before running.
+name: APK Android signé (permanent)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: signed-evolution-release
+  cancel-in-progress: false
+
+jobs:
+  signed-release:
+    name: Construire et publier une version signée
+    if: github.repository == 'vauthierced-pixel/EasyScanner-Evolution' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Vérifier que les quatre secrets privés existent
+        env:
+          KEYSTORE_B64: ${{ secrets.EASYSCANNER_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.EASYSCANNER_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.EASYSCANNER_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.EASYSCANNER_KEY_ALIAS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$KEYSTORE_B64" || -z "$STORE_PASSWORD" ||
+                -z "$KEY_PASSWORD" || -z "$KEY_ALIAS" ]]; then
+            echo "La clé privée n'est pas encore configurée : voir docs/SIGNATURE_PRIVEE.md"
+            exit 1
+          fi
+
+      - name: Récupérer la branche de publication Evolution
+        uses: actions/checkout@v4
+        with:
+          ref: evolution-signature-privee
+          persist-credentials: false
+
+      - name: Valider la version et la branche
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' android/app/build.gradle.kts | head -1)"
+          code="$(sed -nE 's/^[[:space:]]*versionCode[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p' android/app/build.gradle.kts | head -1)"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+-evolution\.[0-9]+$ ||
+                ! "$code" =~ ^[0-9]+$ ]]; then
+            echo "Invalid APK version or versionCode" >&2
+            exit 1
+          fi
+          if gh release view "v$version" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "La Release v$version existe déjà ; incrémenter versionCode et versionName dans le code avant de recommencer." >&2
+            exit 1
+          fi
+          echo "EVOLUTION_VERSION=$version" >> "$GITHUB_ENV"
+          echo "EVOLUTION_CODE=$code" >> "$GITHUB_ENV"
+          echo "EVOLUTION_SOURCE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Installer Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+          cache-dependency-path: android/**/*.gradle.kts
+
+      - name: Installer les outils Android et NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_HOME="$HOME/android-sdk"
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          curl -fL --retry 3 -o /tmp/android-tools.zip "https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip"
+          unzip -q /tmp/android-tools.zip -d /tmp/android-cli
+          mv /tmp/android-cli/cmdline-tools "$ANDROID_HOME/cmdline-tools/latest"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.1.0" "ndk;28.2.13676358" "platform-tools"
+
+      - name: Installer Rust pour Android
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Installer libclang pour OpenCV
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev
+          if [ ! -e /usr/lib/llvm-18/lib/libclang.so ]; then
+            echo "libclang.so not found in /usr/lib/llvm-18/lib" >&2
+            exit 1
+          fi
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
+
+      - name: Décoder temporairement la clé privée
+        shell: bash
+        env:
+          KEYSTORE_B64: ${{ secrets.EASYSCANNER_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$RUNNER_TEMP/easyscanner-signing"
+          printf '%s' "$KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/easyscanner-signing/release.jks"
+          test -s "$RUNNER_TEMP/easyscanner-signing/release.jks"
+          echo "EASYCAN_RELEASE_KEYSTORE=$RUNNER_TEMP/easyscanner-signing/release.jks" >> "$GITHUB_ENV"
+
+      - name: Compiler et tester le vrai APK de publication signé
+        working-directory: android
+        env:
+          EASYCAN_RELEASE_STORE_PASSWORD: ${{ secrets.EASYSCANNER_STORE_PASSWORD }}
+          EASYCAN_RELEASE_KEY_ALIAS: ${{ secrets.EASYSCANNER_KEY_ALIAS }}
+          EASYCAN_RELEASE_KEY_PASSWORD: ${{ secrets.EASYSCANNER_KEY_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleRelease testDebugUnitTest
+
+      - name: Vérifier cryptographiquement la signature APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/36.1.0/apksigner" verify --verbose "$APK"
+          "$ANDROID_HOME/build-tools/36.1.0/aapt" dump badging "$APK" | grep '^package:' | grep -F "com.rawmechatronics.easyscanner.evolution"
+          echo "Vérification de signature et d'identité Android réussie"
+
+      - name: Publier le fichier APK directement dans GitHub Releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="$EVOLUTION_VERSION"
+          tag="v$version"
+          src="android/app/build/outputs/apk/release/app-release.apk"
+          mkdir -p "$RUNNER_TEMP/easyscanner-publish"
+          cd "$RUNNER_TEMP/easyscanner-publish"
+          cp "$GITHUB_WORKSPACE/$src" "EasyScanner-Evolution-$tag.apk"
+          cp "$GITHUB_WORKSPACE/$src" EasyScanner-Evolution.apk
+          sha256sum "EasyScanner-Evolution-$tag.apk" > "EasyScanner-Evolution-$tag.apk.sha256"
+          cat > notes.md <<EOF
+          ## EasyScanner Evolution $version — APK signé
+
+          **Cette version utilise la clé privée permanente du projet.**
+
+          Télécharger directement \`EasyScanner-Evolution.apk\` ci-dessous.
+
+          Les anciennes versions \`evolution.1\` à \`evolution.3\` utilisaient des clés de débogage différentes. Pour passer à cette version signée pour la première fois, une sauvegarde des scans et une désinstallation de l'ancienne version peuvent être nécessaires. Les versions signées suivantes utiliseront la même clé, si les secrets GitHub sont conservés.
+
+          - Code source : \`$EVOLUTION_SOURCE_SHA\`
+          - Signature vérifiée avec \`apksigner\` pendant la compilation.
+          - Prototype 3D non certifié pour les mesures topographiques.
+          EOF
+          gh release create "$tag" \
+            "EasyScanner-Evolution-$tag.apk" "EasyScanner-Evolution-$tag.apk.sha256" \
+            "EasyScanner-Evolution.apk" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target main \
+            --title "EasyScanner Evolution $version — signée" \
+            --notes-file notes.md \
+            --latest
+
+      - name: Effacer le fichier temporaire de signature
+        if: always()
+        shell: bash
+        run: |
+          rm -rf "$RUNNER_TEMP/easyscanner-signing"
