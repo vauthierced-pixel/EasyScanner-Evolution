@@ -28,9 +28,6 @@ jobs:
           cache: gradle
           cache-dependency-path: android/**/*.gradle.kts
 
-      - name: Install Android command line tools
-        uses: android-actions/setup-android@v3
-
       - name: Install Android SDK, NDK and build tools
         run: |
           yes | sdkmanager --licenses >/dev/null || true
