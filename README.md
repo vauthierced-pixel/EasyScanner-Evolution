@@ -45,6 +45,16 @@ Les derniers exports XYZ/CSV se trouvent dans `Téléchargements/EasyScanner/DAO
 
 Les noms techniques restent en anglais (`CameraController.kt`, `cloud.rs`, `build.gradle.kts`, etc.), car le programme en dépend. Ils sont traduits et expliqués dans le guide.
 
+## Prototype : support monobloc renforcé Redmi Note 14 Pro
+
+![Rendu de présentation du support monobloc renforcé pour Redmi Note 14 Pro](docs/images/support_monobloc_redmi_note14pro.webp)
+
+*Rendu visuel de présentation, et non photographie d'une pièce imprimée. La retenue du téléphone, le dégagement du bloc photo et la rigidité mécanique nécessitent encore une validation.*
+
+Nous étudions un support imprimé **en une seule pièce**, avec glissières pour le téléphone, traverses de rigidification et logement intégré pour un laser linéaire Ø12 mm, sans profilé métallique.
+
+**[Voir les modèles 4G/5G, les STL/STEP et la documentation française](https://github.com/vauthierced-pixel/EasyScanner-Evolution/blob/prototype-support-monobloc/cad/SUPPORT_MONOBLOC_EVOLUTION.md)**.
+
 ## Matériel nécessaire pour un scan 3D
 
 ![Vue latérale du scanner](docs/images/assembly_side.jpg)
