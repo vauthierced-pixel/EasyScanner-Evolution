@@ -4,7 +4,7 @@
 
 **Coût : gratuit.** Pas besoin d'abonnement GitHub, ni de publication sur Google Play.
 
-> **Règle de sécurité absolue :** ne jamais mettre le fichier de clé, son encodage Base64 ou ses mots de passe dans un dépôt public, un e-mail, une capture d'écran ou un message ChatGPT. Les saisir directement dans les secrets GitHub.
+> **Règle de sécurité absolue :** ne jamais mettre le fichier de clé, son encodage Base64 ou ses mots de passe dans un dépôt public, un e-mail, une capture d'écran. Les saisir directement dans les secrets GitHub.
 
 ## 1. Créer la clé sur TON ordinateur Windows
 
