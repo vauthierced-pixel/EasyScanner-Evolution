@@ -128,4 +128,14 @@
     <string name="camera_diag_hud_note">Consulte le bandeau du scanner pour voir la résolution réellement analysée et la cadence mesurée. Ces valeurs sont distinctes des mégapixels annoncés.</string>
     <string name="camera_diag_error">Données de caméra indisponibles : %1$s</string>
     <string name="camera_diag_unknown">non communiqué</string>
+
+    <!-- État de numérisation compact ; toucher pour développer le diagnostic. -->
+    <string name="hud_board_ok">Mire détectée</string>
+    <string name="hud_board_search">Recherche de la mire</string>
+    <string name="hud_laser_off">Laser inactif</string>
+    <string name="hud_laser_search">Recherche de la ligne laser</string>
+    <string name="hud_laser_ok">Ligne laser détectée</string>
+    <string name="hud_points">%1$d pts</string>
+    <string name="hud_tap_details">Toucher pour les détails techniques</string>
+    <string name="hud_tap_close">Toucher pour réduire les détails</string>
 </resources>
