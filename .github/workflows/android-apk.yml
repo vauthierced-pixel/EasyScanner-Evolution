@@ -54,12 +54,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libclang-dev
-          LIBCLANG_FILE="$(find /usr/lib -type f \( -name 'libclang.so' -o -name 'libclang.so.*' \) | head -n 1)"
-          if [ -z "$LIBCLANG_FILE" ]; then
-            echo "libclang not found" >&2
+          LIBCLANG_PATH="/usr/lib/llvm-18/lib"
+          if [ ! -e "$LIBCLANG_PATH/libclang.so" ]; then
+            echo "libclang.so not found in $LIBCLANG_PATH" >&2
+            find /usr/lib -name 'libclang.so*' -print
             exit 1
           fi
-          echo "LIBCLANG_PATH=$(dirname "$LIBCLANG_FILE")" >> "$GITHUB_ENV"
+          echo "LIBCLANG_PATH=$LIBCLANG_PATH" >> "$GITHUB_ENV"
 
       - name: Build APK and run Kotlin tests
         working-directory: android
