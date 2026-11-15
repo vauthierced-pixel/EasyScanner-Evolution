@@ -138,4 +138,5 @@
     <string name="hud_points">%1$d pts</string>
     <string name="hud_tap_details">Toucher pour les détails techniques</string>
     <string name="hud_tap_close">Toucher pour réduire les détails</string>
+    <string name="hud_fps_unit">img/s</string>
 </resources>
