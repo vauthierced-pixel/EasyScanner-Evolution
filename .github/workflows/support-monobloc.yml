@@ -7,6 +7,7 @@ on:
       - prototype-support-monobloc
     paths:
       - cad/models/support_monobloc_evolution.py
+      - cad/models/support_monobloc_redmi_note14pro_renforce.py
       - .github/workflows/support-monobloc.yml
 
 permissions:
@@ -33,13 +34,19 @@ jobs:
       - name: Générer STL et STEP du prototype
         run: |
           python cad/models/support_monobloc_evolution.py --sortie cad/monobloc-output/
+          python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 4g --sortie cad/monobloc-output/
+          python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 5g --sortie cad/monobloc-output/
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_4g_RENFORCE.stl
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_4g_RENFORCE.step
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_5g_RENFORCE.stl
+          test -s cad/monobloc-output/EasyScanner_Redmi_Note14Pro_5g_RENFORCE.step
           test -s cad/monobloc-output/EasyScanner_Evolution_support_monobloc_prototype.stl
           test -s cad/monobloc-output/EasyScanner_Evolution_support_monobloc_prototype.step
 
       - name: Télécharger les fichiers 3D
         uses: actions/upload-artifact@v4
         with:
-          name: EasyScanner-Support-Monobloc-STL-STEP
+          name: EasyScanner-Supports-Monobloc-Redmi-4G-5G-STL-STEP
           path: |
             cad/monobloc-output/*.stl
             cad/monobloc-output/*.step
