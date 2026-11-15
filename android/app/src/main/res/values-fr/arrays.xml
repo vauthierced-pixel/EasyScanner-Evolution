@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Seules les étiquettes sont traduites ; les valeurs sauvegardées restent inchangées. -->
+    <string-array name="fps_labels">
+        <item>15 images/s</item><item>24 images/s</item>
+        <item>30 images/s</item><item>60 images/s</item>
+    </string-array>
+    <string-array name="long_side_labels">
+        <item>Maximum permis par la caméra</item>
+        <item>4000 px</item><item>3264 px</item><item>2560 px</item>
+        <item>1920 px</item><item>1600 px</item><item>1280 px</item>
+        <item>960 px</item><item>640 px</item>
+    </string-array>
+    <string-array name="photo_trigger_labels">
+        <item>Intervalle ou déplacement (premier atteint)</item>
+        <item>À intervalle régulier</item>
+        <item>Selon le déplacement</item>
+    </string-array>
+    <string-array name="laser_color_labels">
+        <item>Rouge / rose / magenta</item>
+        <item>Vert</item>
+        <item>Automatique (les deux)</item>
+    </string-array>
+</resources>
