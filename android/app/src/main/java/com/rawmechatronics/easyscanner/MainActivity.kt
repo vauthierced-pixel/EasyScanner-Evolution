@@ -69,6 +69,8 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
     private var messages = JSONObject()
     private val fps = FpsMeter()
     private val hudPending = AtomicBoolean(false)
+    /** Keep the viewfinder clear; tap its status panel to inspect complete engine telemetry. */
+    private var showFullHud = false
 
     // last header values the buttons depend on (UI thread)
     private var calibActive = false
@@ -120,6 +122,8 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
             onStillFailed = { msg, fatal -> main.post { onStillFailed(msg, fatal) } },
         )
         b.overlay.source = processor.results
+        b.hud.setOnClickListener { showFullHud = !showFullHud; renderHud() }
+        b.hud.maxWidth = resources.displayMetrics.widthPixels - (18 * resources.displayMetrics.density).toInt()
         settings = AppSettings.load(this)
 
         b.settingsButton.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
@@ -138,11 +142,16 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
         for (s in STEPS) {
             val v = TextView(this).apply {
                 gravity = Gravity.CENTER
-                setPadding(0, 6, 0, 6)
-                textSize = 13f
+                val d = resources.displayMetrics.density
+                setPadding((3 * d).toInt(), (9 * d).toInt(), (3 * d).toInt(), (9 * d).toInt())
+                textSize = 11f
+                isSingleLine = true
                 setOnClickListener { openStep(s) }
             }
-            b.steps.addView(v, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            val m = (2 * resources.displayMetrics.density).toInt()
+            val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                .apply { setMargins(m, 0, m, 0) }
+            b.steps.addView(v, lp)
             stepViews.add(v)
         }
         listOf(b.action1, b.action2, b.action3, b.action4).forEachIndexed { i, btn ->
@@ -376,7 +385,30 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
                 if (has(H.PLANE_RMS)) "%.2f mm".format(f(H.PLANE_RMS)) else "-"))
             else -> {}
         }
-        b.hud.text = sb
+        // The detailed processor output stays available on demand; the small
+        // default panel preserves the camera view used for calibration/scanning.
+        val compact = buildString {
+            append("CAM ").append(info?.id ?: "?")
+            append(" · ").append(f(H.FRAME_W).toInt()).append('×').append(f(H.FRAME_H).toInt())
+            append(" · ").append(String.format(Locale.getDefault(), "%.1f", fps.fps))
+            append(" ").append(getString(R.string.hud_fps_unit))
+            append('\n')
+            append(getString(if (r.flag(H.DETECTED)) R.string.hud_board_ok else R.string.hud_board_search))
+            append(" · ")
+            append(getString(when (f(H.LASER_STATE).toInt()) {
+                0 -> R.string.hud_laser_off
+                1 -> R.string.hud_laser_search
+                else -> R.string.hud_laser_ok
+            }))
+            if (scanOn) {
+                append(" · ").append(getString(R.string.hud_points, f(H.CLOUD_POINTS).toInt()))
+            }
+            append('\n').append(getString(R.string.hud_tap_details))
+        }
+        b.hud.text = if (showFullHud) sb.toString() else compact
+        b.hud.contentDescription = getString(
+            if (showFullHud) R.string.hud_tap_close else R.string.hud_tap_details
+        )
 
         // every read of r is above: what follows can render, which takes a newer frame
         val newCalib = r.flag(H.CALIB_ACTIVE)
@@ -612,6 +644,12 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
             }
             stepViews[i].setIfChanged(mark + getString(stepLabel(s)))
             stepViews[i].setTextColor(if (current) Color.WHITE else if (rd.done(s)) DONE_COLOR else TODO_COLOR)
+            if (stepViews[i].tag != current) {
+                stepViews[i].setBackgroundResource(
+                    if (current) R.drawable.bg_evo_step_current else R.drawable.bg_evo_step_idle
+                )
+                stepViews[i].tag = current
+            }
         }
 
         fun f(slot: Int) = r?.get(slot) ?: Float.NaN
@@ -1031,7 +1069,7 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
         /** No registered PLY type; a generic one keeps MediaStore from renaming the file. */
         const val PLY_MIME = "application/octet-stream"
         val STEPS = listOf(Step.BOARD, Step.FOCUS, Step.CAMERA, Step.LASER, Step.SCAN)
-        val DONE_COLOR = Color.rgb(120, 200, 140)
-        val TODO_COLOR = Color.rgb(140, 140, 150)
+        val DONE_COLOR = Color.rgb(101, 217, 165)
+        val TODO_COLOR = Color.rgb(161, 181, 196)
     }
 }
