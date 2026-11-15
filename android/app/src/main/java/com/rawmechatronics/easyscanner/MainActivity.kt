@@ -327,6 +327,7 @@ class MainActivity : AppCompatActivity(), FrameProcessor.Listener {
         fun f(slot: Int) = r[slot]
         fun has(slot: Int) = !f(slot).isNaN()
         val sb = StringBuilder()
+        sb.append("cam ").append(info?.id ?: "?").append(" · ")
         sb.append("%.0fx%.0f  %.1f fps  proc %.1f ms (board %.1f, laser %.1f)\n".format(
             f(H.FRAME_W), f(H.FRAME_H), fps.fps, r.procMs, f(H.T_BOARD_MS), f(H.T_LASER_MS)))
         sb.append(governor?.let { "auto: ${it.status}" } ?: "fixed resolution").append('\n')

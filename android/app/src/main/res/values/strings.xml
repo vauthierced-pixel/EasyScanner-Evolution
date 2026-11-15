@@ -128,4 +128,22 @@
     <string name="dao_exporting">Exporting…</string>
     <string name="dao_export_done">Exported %1$,d / %2$,d points to Downloads/EasyScanner/DAO</string>
     <string name="dao_export_failed">CAD export failed: %1$s</string>
+
+    <!-- Camera2 device capabilities: values reported by Android, not benchmark measurements. -->
+    <string name="camera_diag_title">Camera diagnostic</string>
+    <string name="camera_diag_summary">Lens ID, sensor modes and available scan resolutions</string>
+    <string name="camera_diag_selected">Selected camera ID: %1$s</string>
+    <string name="camera_diag_back_count">Exposed rear cameras: %1$d</string>
+    <string name="camera_diag_focal">Reported focal length(s): %1$s</string>
+    <string name="camera_diag_active">Reported active sensor area: %1$s</string>
+    <string name="camera_diag_yuv">Largest YUV analysis stream: %1$s</string>
+    <string name="camera_diag_jpeg">Largest JPEG still image: %1$s</string>
+    <string name="camera_diag_physical">Physical lens IDs in logical camera (not necessarily independently selectable): %1$s</string>
+    <string name="camera_diag_analysis">Configured initial analysis resolution: %1$s</string>
+    <string name="camera_diag_target_fps">Requested frame rate: %1$d fps</string>
+    <string name="camera_diag_auto_on">Automatic resolution adjustment: ON</string>
+    <string name="camera_diag_auto_off">Automatic resolution adjustment: OFF</string>
+    <string name="camera_diag_hud_note">See the scanner overlay for actual analysis resolution and measured FPS. These are not the sensor\'s advertised megapixels.</string>
+    <string name="camera_diag_error">Camera data unavailable: %1$s</string>
+    <string name="camera_diag_unknown">not reported</string>
 </resources>
