@@ -8,51 +8,54 @@
 
 Ce lien est permanent : il pointe vers l'APK de la **dernière version publiée**. Tu peux le garder dans les favoris de ton téléphone. Aucun fichier ZIP à ouvrir et aucune recherche dans GitHub Actions.
 
-**Pour préparer les futures mises à jour sans désinstallation :** [Guide de la signature Android permanente et privée](docs/SIGNATURE_PRIVEE.md). La première version utilisant cette nouvelle signature sera `0.3.1-evolution.5` (avec l'interface professionnelle française), **uniquement après configuration des secrets par le propriétaire**.
+**La signature privée permanente est maintenant en service** depuis la version `0.3.1-evolution.5`. Pour les prochaines mises à jour signées avec cette même clé : [guide de signature et de sauvegarde](docs/SIGNATURE_PRIVEE.md).
 
 ## Dernière version disponible
 
-### EasyScanner Evolution — 0.3.1-evolution.3
+### EasyScanner Evolution — 0.3.1-evolution.5 (signature permanente)
 
-**[TÉLÉCHARGER DIRECTEMENT L'APK — version 0.3.1-evolution.3](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.3/EasyScanner-Evolution-v0.3.1-evolution.3.apk)**
+**[TÉLÉCHARGER L'APK SIGNÉ — version 0.3.1-evolution.5](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.5/EasyScanner-Evolution-v0.3.1-evolution.5.apk)**
 
-- Interface française et bibliothèque de scans.
-- Export DAO **XYZ / CSV** en millimètres, avec option de réduction spatiale sur grille de 1 mm.
-- **Diagnostic caméra** : identifiant, focales et résolutions déclarées par Android ; affichage de la résolution réellement analysée et des images par seconde.
-- Compilation et tests automatiques GitHub réussis le **15 novembre 2026**.
-- Fichier APK d'environ **41 Mo**, **sans archive ZIP à décompresser**.
+- Interface professionnelle en français et diagnostic caméra.
+- Export DAO en XYZ / CSV, avec réduction spatiale sur grille de 1 mm.
+- **Signature Android permanente et privée** : cette version devient la référence pour les futures mises à jour.
+- Compilation, tests et vérification de signature réussis le **15 novembre 2026**.
+- APK d'environ **38,9 Mo**, téléchargeable directement sans ZIP.
 
-## Historique des versions
+## Historique des versions publiées
 
-| Version Android | Modifications | Téléchargement direct |
+| Version Android | Principales nouveautés | Télécharger |
 |---|---|---|
-| **0.3.1-evolution.3 — la plus récente** | Diagnostic caméra + exports DAO + français | **[Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.3/EasyScanner-Evolution-v0.3.1-evolution.3.apk)** |
-| 0.3.1-evolution.2 | Exports XYZ / CSV, réduction sur grille de 1 mm, français | [Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.2/EasyScanner-Evolution-v0.3.1-evolution.2.apk) |
-| 0.3.1-evolution.1 | Première traduction française, scanner original | [Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.1/EasyScanner-Evolution-v0.3.1-evolution.1.apk) |
+| **0.3.1-evolution.5 — recommandée** | Interface professionnelle française + signature privée permanente | **[APK signé](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.5/EasyScanner-Evolution-v0.3.1-evolution.5.apk)** |
+| 0.3.1-evolution.3 | Diagnostic caméra + export DAO + français ; ancienne signature de débogage | [APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.3/EasyScanner-Evolution-v0.3.1-evolution.3.apk) |
+| 0.3.1-evolution.2 | Export XYZ / CSV, réduction spatiale de 1 mm ; ancienne signature de débogage | [APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.2/EasyScanner-Evolution-v0.3.1-evolution.2.apk) |
+| 0.3.1-evolution.1 | Première version française ; ancienne signature de débogage | [APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.1/EasyScanner-Evolution-v0.3.1-evolution.1.apk) |
 
-**[Toutes les versions sur GitHub Releases](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases)**
+**[Ouvrir toutes les versions GitHub Releases](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases)**
 
-Les APK sont désormais publiés dans **Releases**, et non plus seulement dans les archives provisoires des compilations GitHub Actions. Les fichiers restent accessibles tant que les Releases correspondantes sont conservées sur le dépôt ; ils n'expirent pas après 30 jours.
+Ces téléchargements sont publiés dans **Releases** et ne sont pas soumis à l'expiration de 30 jours des archives GitHub Actions, tant que le dépôt et les Releases existent.
 
-## Installer sur Android
+## Installation sur Android
 
-1. Sur ton téléphone, clique sur **Télécharger APK** dans le tableau.
-2. Ouvre le fichier `.apk` téléchargé.
-3. Autorise l'installation depuis ton navigateur ou gestionnaire de fichiers si Android le demande.
+1. Sur le téléphone, appuie sur **Télécharger la dernière version** en haut de cette page.
+2. Ouvre directement le fichier `.apk`.
+3. Autorise l'installation depuis la source choisie si Android le demande.
 4. Lance **EasyScanner Evolution**.
 
-**Attention aux mises à jour :** les APK actuels sont signés avec une clé de débogage créée lors de chaque compilation GitHub. Il se peut qu'Android **refuse d'installer une nouvelle version par-dessus l'ancienne**. Avant de désinstaller une version, sauvegarde tes nuages PLY, les photos et les sessions : la désinstallation peut effacer les fichiers internes de l'application. Une signature permanente et privée sera notre prochaine étape pour autoriser les mises à jour simples.
+**Important pour la première installation signée (.5) :** les APK .1 à .3 utilisaient des clés de débogage différentes. Il peut être nécessaire de désinstaller une ancienne version pour installer la .5. **Sauvegarde les fichiers PLY, les photos et les sessions avant toute désinstallation** : les données internes peuvent être perdues.
 
-## Comment publier une nouvelle version permanente
+À partir de la .5, les mises à jour sont possibles sans désinstallation à condition de conserver **la même clé privée, le même identifiant d'application et un `versionCode` croissant**.
 
-Pour l'instant, la publication se fait depuis le workflow GitHub **[Publier un APK permanent (Releases)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/publish-releases.yml)**.
+## Publier les futures versions signées
 
-1. L'APK doit d'abord être compilé avec succès par **[Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**.
-2. Ouvre le workflow **Publier un APK permanent**, puis **Run workflow**.
-3. Indique la valeur exacte de `versionName` (exemple : `0.3.1-evolution.4`) et l'ID de la compilation Android réussie (nombre visible dans l'URL de l'exécution).
-4. Après publication, ajoute le nouveau lien à l'historique sur cette page. Le lien « dernière version » situé tout en haut fonctionnera sans changement.
+La procédure officielle est désormais le workflow manuel **[APK Android signé (permanent)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-signed-release.yml)**.
 
-Le script refuse de publier une compilation échouée ou de remplacer une Release déjà existante. Les tags des Releases archivées se rapportent à la documentation sur la branche `main` ; les notes de chaque Release donnent le commit exact ayant produit l'APK sur la branche de développement.
+1. Incrémenter `versionName` et `versionCode` sur la branche `evolution-signature-stable`.
+2. Ouvrir le workflow, garder la branche **main** et choisir **Run workflow**.
+3. Une fois la compilation et la vérification de signature réussies, GitHub publie le nouvel APK dans Releases.
+4. Mettre à jour l'historique ci-dessus. Le lien « Télécharger la dernière version » continuera à pointer vers la bonne version.
+
+Une Release existante n'est pas écrasée : une nouvelle publication nécessite un nouveau numéro de version. **Ne publie plus de nouveaux APK de débogage en tant que dernière version**, car leur signature ne permettrait pas une mise à jour transparente depuis la .5.
 
 ## Autres téléchargements utiles
 
