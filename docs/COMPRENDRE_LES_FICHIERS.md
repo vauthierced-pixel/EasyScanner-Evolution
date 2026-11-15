@@ -19,7 +19,7 @@ Ce guide explique **ce que contient le dépôt**, ce qu'il faut ouvrir selon son
 
 **Important :** changer de branche dans le menu au-dessus des fichiers change les versions affichées. Si tu regardes `main`, les dernières fonctions Evolution peuvent ne pas encore s'y trouver.
 
-[Voir la branche Evolution](../tree/evolution-v0.3-fr-apk) · [Voir les compilations](../actions/workflows/android-apk.yml) · [Voir la proposition de modification](../pull/1)
+[Voir la branche Evolution](https://github.com/vauthierced-pixel/EasyScanner-Evolution/tree/evolution-v0.3-fr-apk) · [Voir les compilations](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml) · [Voir la proposition de modification](https://github.com/vauthierced-pixel/EasyScanner-Evolution/pull/1)
 
 Sur un navigateur, tu peux aussi utiliser « Traduire en français » pour les boutons de GitHub. Cela ne change pas le code.
 
@@ -120,19 +120,19 @@ Dans `core/android/src/` :
 
 ### Mires imprimables
 
-Dossier : [`charuco/boards/`](../tree/main/charuco/boards)
+Dossier : [`charuco/boards/`](../charuco/boards/)
 
 | Feuille | Fichier | Carrés X × Y | Taille d'un carré |
 |---|---|---|---|
-| A4 | [`charuco_A4_4x6_45mm.pdf`](../blob/main/charuco/boards/charuco_A4_4x6_45mm.pdf) | 4 × 6 | 45 mm |
-| A3 | [`charuco_A3_6x8_45mm.pdf`](../blob/main/charuco/boards/charuco_A3_6x8_45mm.pdf) | 6 × 8 | 45 mm |
-| A2 | [`charuco_A2_8x10_45mm.pdf`](../blob/main/charuco/boards/charuco_A2_8x10_45mm.pdf) | 8 × 10 | 45 mm |
+| A4 | [`charuco_A4_4x6_45mm.pdf`](../charuco/boards/charuco_A4_4x6_45mm.pdf) | 4 × 6 | 45 mm |
+| A3 | [`charuco_A3_6x8_45mm.pdf`](../charuco/boards/charuco_A3_6x8_45mm.pdf) | 6 × 8 | 45 mm |
+| A2 | [`charuco_A2_8x10_45mm.pdf`](../charuco/boards/charuco_A2_8x10_45mm.pdf) | 8 × 10 | 45 mm |
 
 Imprimer à **100 %**, vérifier la règle de 100 mm, puis poser la feuille bien à plat. Le dictionnaire par défaut de ces mires est `DICT_5X5_100` (identifiant 5). Les dimensions exactes des A0 et A1 figurent dans `charuco/boards/boards.json`.
 
 ### Pièces mécaniques à imprimer
 
-Dossier : [`cad/`](../tree/main/cad)
+Dossier : [`cad/`](../cad/)
 
 - `cad/export/*.stl` : pièces du support du laser, prêtes pour l'impression 3D.
 - `cad/phone-clamp/export/*.stl` : pièces du support du téléphone.
@@ -157,7 +157,7 @@ Notre export **XYZ/CSV** n'efface pas le PLY. L'option « grille 1 mm » garde u
 
 ## 5. Comment retrouver l'APK
 
-1. Ouvrir [Actions → Android APK (Evolution)](../actions/workflows/android-apk.yml).
+1. Ouvrir [Actions → Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml).
 2. Cliquer sur une exécution ayant une **coche verte**.
 3. En bas de la page, trouver **Artifacts**.
 4. Cliquer sur `EasyScanner-Evolution-APK` pour télécharger une archive ZIP.
@@ -166,7 +166,7 @@ Notre export **XYZ/CSV** n'efface pas le PLY. L'option « grille 1 mm » garde u
 Un compte GitHub connecté peut être nécessaire pour télécharger l'archive. Les fichiers Artifacts sont temporaires (la configuration actuelle prévoit 30 jours).
 
 La compilation prépare Java, Android SDK/NDK, Rust et OpenCV automatiquement. Pour nous, le fichier qui décrit ces opérations est :
-[`.github/workflows/android-apk.yml`](../blob/evolution-v0.3-fr-apk/.github/workflows/android-apk.yml).
+[`.github/workflows/android-apk.yml`](https://github.com/vauthierced-pixel/EasyScanner-Evolution/blob/evolution-v0.3-fr-apk/.github/workflows/android-apk.yml).
 
 ## 6. Que peut-on modifier sans tout casser ?
 
