@@ -1,0 +1,68 @@
+# Build an installable test APK without Android Studio.
+# The app embeds a Rust native library, so both toolchains are required.
+name: Android APK (Evolution)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'evolution-*'
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    name: Build Android arm64 APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+          cache-dependency-path: android/**/*.gradle.kts
+
+      - name: Install Android command line tools
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK, NDK and build tools
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.1.0" "ndk;28.2.13676358"
+
+      - name: Install Rust Android target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Install libclang (OpenCV Rust bindings)
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev
+          LIBCLANG_FILE="$(find /usr/lib -type f \( -name 'libclang.so' -o -name 'libclang.so.*' \) | head -n 1)"
+          if [ -z "$LIBCLANG_FILE" ]; then
+            echo "libclang not found" >&2
+            exit 1
+          fi
+          echo "LIBCLANG_PATH=$(dirname "$LIBCLANG_FILE")" >> "$GITHUB_ENV"
+
+      - name: Build APK and run Kotlin tests
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleDebug testDebugUnitTest
+
+      - name: Upload installable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: EasyScanner-Evolution-APK
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 30
