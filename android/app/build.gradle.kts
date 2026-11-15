@@ -22,6 +22,10 @@ val localProps = Properties().apply {
     rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
 }
 
+// Signing credentials are supplied only by a trusted local build or GitHub
+// Actions secrets. The private keystore and passwords must never be committed.
+val releaseKeystorePath = System.getenv("EASYCAN_RELEASE_KEYSTORE")
+
 android {
     namespace = "com.rawmechatronics.easyscanner"
     compileSdk = 36
@@ -33,16 +37,37 @@ android {
         applicationId = "com.rawmechatronics.easyscanner.evolution"
         minSdk = rustApi
         targetSdk = 36
-        versionCode = 7
-        versionName = "0.3.1-evolution.3"
+        versionCode = 8
+        versionName = "0.3.1-evolution.4"
         ndk { abiFilters += rustAbis }
+    }
+
+    signingConfigs {
+        // No secret (or release keystore) is ever stored in this repository.
+        if (!releaseKeystorePath.isNullOrBlank()) {
+            create("evolutionPrivate") {
+                storeFile = file(releaseKeystorePath)
+                storePassword = requireNotNull(System.getenv("EASYCAN_RELEASE_STORE_PASSWORD")) {
+                    "Missing EASYCAN_RELEASE_STORE_PASSWORD"
+                }
+                keyAlias = requireNotNull(System.getenv("EASYCAN_RELEASE_KEY_ALIAS")) {
+                    "Missing EASYCAN_RELEASE_KEY_ALIAS"
+                }
+                keyPassword = requireNotNull(System.getenv("EASYCAN_RELEASE_KEY_PASSWORD")) {
+                    "Missing EASYCAN_RELEASE_KEY_PASSWORD"
+                }
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            // installable for on-device performance runs without a release key
-            signingConfig = signingConfigs.getByName("debug")
+            // An unsigned release is allowed locally only for compilation checks;
+            // the publication workflow refuses it and verifies its signature.
+            if (!releaseKeystorePath.isNullOrBlank()) {
+                signingConfig = signingConfigs.getByName("evolutionPrivate")
+            }
         }
     }
 
