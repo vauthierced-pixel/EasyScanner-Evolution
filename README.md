@@ -13,7 +13,7 @@ Cette application utilise la caméra du téléphone, un **laser projetant une li
 | Je veux... | Ouvrir |
 |---|---|
 | **Comprendre ce que font les fichiers** | **[Guide en français : comprendre les dossiers et les fichiers](docs/COMPRENDRE_LES_FICHIERS.md)** |
-| **Installer la dernière version Android Evolution** | **[Compilations APK sur GitHub](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)** |
+| **Télécharger EasyScanner Evolution (toutes les versions)** | **[PAGE DES TÉLÉCHARGEMENTS — APK](TELECHARGER.md)** |
 | **Voir le code que nous modifions** | **[Branche Evolution](https://github.com/vauthierced-pixel/EasyScanner-Evolution/tree/evolution-v0.3-fr-apk)** |
 
 **Attention aux branches :** `main` (celle affichée par défaut) conserve le code du projet d'origine et cette documentation française. Nos améliorations Android sont actuellement sur la branche **`evolution-v0.3-fr-apk`**, dans [la proposition de modification n° 1](https://github.com/vauthierced-pixel/EasyScanner-Evolution/pull/1). Ne te fie donc pas uniquement à la liste des fichiers de `main` pour rechercher les nouveautés.
@@ -83,6 +83,12 @@ Imprimer à **100 % / taille réelle**, sans « ajuster à la page ». Vérifier
 Sans laser, tu peux déjà essayer la détection de la mire et la calibration de la caméra. Pour reconstruire la forme d'un objet, il faut ensuite le **laser linéaire fixé rigidement au téléphone**.
 
 ## Comment télécharger et installer l'APK
+
+**[OUVRIR LA PAGE DES TÉLÉCHARGEMENTS — toutes les versions](TELECHARGER.md)**
+
+Cette page regroupe chaque version avec son lien, ses nouveautés et les étapes d'installation.
+
+Si tu souhaites consulter directement les compilations :
 
 1. Ouvrir **[Actions — Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**.
 2. Choisir une compilation terminée avec une **coche verte**.
