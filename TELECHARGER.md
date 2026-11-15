@@ -1,54 +1,58 @@
 # Télécharger EasyScanner Evolution
 
-> **C'est la page à conserver dans tes favoris.** Elle regroupe les versions de l'application Android, de la plus récente à la plus ancienne.
->
-> **Version à installer actuellement : 0.3.1-evolution.3.**
+**Cette page regroupe toutes les versions Android. Garde ce lien dans tes favoris : elle restera à la même adresse.**
 
-## La dernière version
+## Dernière version disponible
 
-### EasyScanner Evolution 0.3.1-evolution.3 — Diagnostic caméra
+### EasyScanner Evolution — 0.3.1-evolution.3
 
-**[TÉLÉCHARGER LA VERSION 0.3.1-evolution.3 (ZIP contenant l'APK)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43723209578/artifacts/14165571728)**
+**[TÉLÉCHARGER DIRECTEMENT L'APK — version 0.3.1-evolution.3](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.3/EasyScanner-Evolution-v0.3.1-evolution.3.apk)**
 
-- Interface principale en français.
-- Diagnostic caméra (identifiant, focale, résolutions accessibles).
-- Résolution analysée et images par seconde affichées dans le scanner.
-- Export des scans en XYZ et CSV pour la DAO, avec option de réduction sur une grille de 1 mm.
-- Compilation GitHub réussie le **15 novembre 2026**.
-- **[Voir la fiche de compilation](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43723209578)**.
+- Interface française et bibliothèque de scans.
+- Export DAO **XYZ / CSV** en millimètres, avec option de réduction spatiale sur grille de 1 mm.
+- **Diagnostic caméra** : identifiant, focales et résolutions déclarées par Android ; affichage de la résolution réellement analysée et des images par seconde.
+- Compilation et tests automatiques GitHub réussis le **15 novembre 2026**.
+- Fichier APK d'environ **41 Mo**, **sans archive ZIP à décompresser**.
 
-## Historique des versions Android
+## Historique des versions
 
-| Version | Nouveautés principales | Télécharger | Date de compilation |
-|---|---|---|---|
-| **0.3.1-evolution.3** — recommandée | Diagnostic caméra + export DAO + français | **[ZIP / APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43723209578/artifacts/14165571728)** | 15/11/2026 |
-| 0.3.1-evolution.2 | Export XYZ/CSV + réduction spatiale 1 mm + français | [ZIP / APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43701549566/artifacts/14156542368) | 15/11/2026 |
-| 0.3.1-evolution.1 | Première application française + compilation automatisée | [ZIP / APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43697031317/artifacts/14154693064) | 15/11/2026 |
+| Version Android | Modifications | Téléchargement direct |
+|---|---|---|
+| **0.3.1-evolution.3 — la plus récente** | Diagnostic caméra + exports DAO + français | **[Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.3/EasyScanner-Evolution-v0.3.1-evolution.3.apk)** |
+| 0.3.1-evolution.2 | Exports XYZ / CSV, réduction sur grille de 1 mm, français | [Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.2/EasyScanner-Evolution-v0.3.1-evolution.2.apk) |
+| 0.3.1-evolution.1 | Première traduction française, scanner original | [Télécharger APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/download/v0.3.1-evolution.1/EasyScanner-Evolution-v0.3.1-evolution.1.apk) |
 
-Les trois versions ci-dessus ont une compilation GitHub réussie. Cela ne remplace pas une validation de la précision 3D sur un scan réel.
+**[Toutes les versions sur GitHub Releases](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases)**
 
-## Installer en quatre étapes
+Les APK sont désormais publiés dans **Releases**, et non plus seulement dans les archives provisoires des compilations GitHub Actions. Les fichiers restent accessibles tant que les Releases correspondantes sont conservées sur le dépôt ; ils n'expirent pas après 30 jours.
 
-1. **Clique sur le lien ZIP / APK** de la version choisie. Connecte-toi à GitHub si nécessaire.
-2. Dans le dossier **Téléchargements** du téléphone ou de l'ordinateur, ouvre le ZIP téléchargé.
-3. **Extrais le fichier `app-debug.apk`** : c'est lui qui installe l'application Android.
-4. Ouvre ce fichier APK sur le téléphone, puis autorise son installation si Android le demande.
+## Installer sur Android
 
-Tu peux installer une nouvelle version Evolution par-dessus l'ancienne tant que la signature de test reste compatible. En cas d'échec, **ne désinstalle pas l'ancienne application avant d'avoir sauvegardé les scans et les sessions**.
+1. Sur ton téléphone, clique sur **Télécharger APK** dans le tableau.
+2. Ouvre le fichier `.apk` téléchargé.
+3. Autorise l'installation depuis ton navigateur ou gestionnaire de fichiers si Android le demande.
+4. Lance **EasyScanner Evolution**.
 
-## Un lien ne fonctionne plus ?
+**Attention aux mises à jour :** les APK actuels sont signés avec une clé de débogage créée lors de chaque compilation GitHub. Il se peut qu'Android **refuse d'installer une nouvelle version par-dessus l'ancienne**. Avant de désinstaller une version, sauvegarde tes nuages PLY, les photos et les sessions : la désinstallation peut effacer les fichiers internes de l'application. Une signature permanente et privée sera notre prochaine étape pour autoriser les mises à jour simples.
 
-Les ZIP des compilations **GitHub Actions expirent**. Les archives ci-dessus sont prévues pour rester disponibles jusqu'au **15 décembre 2026**. Cette page, elle, reste accessible à la même adresse.
+## Comment publier une nouvelle version permanente
 
-Si un lien a expiré, ouvre la page **[Toutes les compilations APK](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**. Choisis une compilation avec une **coche verte**, puis descends à la rubrique **Artifacts** et clique sur **EasyScanner-Evolution-APK**. Les futures versions pourront aussi être publiées dans des *Releases* pour conserver durablement les APK.
+Pour l'instant, la publication se fait depuis le workflow GitHub **[Publier un APK permanent (Releases)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/publish-releases.yml)**.
 
-## Autres fichiers utiles
+1. L'APK doit d'abord être compilé avec succès par **[Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**.
+2. Ouvre le workflow **Publier un APK permanent**, puis **Run workflow**.
+3. Indique la valeur exacte de `versionName` (exemple : `0.3.1-evolution.4`) et l'ID de la compilation Android réussie (nombre visible dans l'URL de l'exécution).
+4. Après publication, ajoute son nouveau lien direct au tableau de cette page.
 
-- **[Support monobloc Redmi Note 14 Pro — fichiers STL et STEP](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43707079746/artifacts/14159395277)** (prototype à vérifier avant fabrication).
-- **[Mires ChArUco prêtes à imprimer](charuco/boards/)** (A4, A3, A2, A1, A0).
-- **[Guide français des fichiers](docs/COMPRENDRE_LES_FICHIERS.md)**.
-- **[Accueil du projet](README.md)**.
+Le script refuse de publier une compilation échouée ou de remplacer une Release déjà existante. Les tags des Releases archivées se rapportent à la documentation sur la branche `main` ; les notes de chaque Release donnent le commit exact ayant produit l'APK sur la branche de développement.
+
+## Autres téléchargements utiles
+
+- [Support monobloc Redmi Note 14 Pro — STL / STEP (prototype)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/runs/43707079746/artifacts/14159395277) : encore un fichier temporaire GitHub Actions.
+- [Mires ChArUco A4, A3, A2 et autres formats](charuco/boards/)
+- [Guide français des dossiers et fichiers](docs/COMPRENDRE_LES_FICHIERS.md)
+- [Retour à l'accueil EasyScanner Evolution](README.md)
 
 ---
 
-**Important :** EasyScanner Evolution est un scanner 3D expérimental. La précision des mesures n'est pas certifiée. N'utilise pas ces mesures pour des travaux VRD sans contrôle indépendant.
+**EasyScanner Evolution est un prototype de scanner 3D, non un instrument topographique certifié.** La précision des mesures nécessite une validation indépendante avant tout usage en VRD.
