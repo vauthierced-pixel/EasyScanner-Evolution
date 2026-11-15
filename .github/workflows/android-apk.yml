@@ -12,6 +12,11 @@ on:
 permissions:
   contents: read
 
+# Only build the newest version of this branch.
+concurrency:
+  group: android-evolution-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   apk:
     name: Build Android arm64 APK
