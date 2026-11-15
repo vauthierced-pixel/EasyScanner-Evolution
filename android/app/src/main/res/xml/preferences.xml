@@ -37,6 +37,10 @@
             android:key="camera_id"
             android:title="Back camera"
             app:useSimpleSummaryProvider="true" />
+        <Preference
+            android:key="camera_diagnostic"
+            android:title="@string/camera_diag_title"
+            android:summary="@string/camera_diag_summary" />
         <SwitchPreferenceCompat
             android:key="manual_focus"
             android:title="Manual focus"
