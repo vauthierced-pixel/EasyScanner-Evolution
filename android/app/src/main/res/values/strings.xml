@@ -156,4 +156,5 @@
     <string name="hud_points">%1$d pts</string>
     <string name="hud_tap_details">Tap for technical details</string>
     <string name="hud_tap_close">Tap to reduce technical details</string>
+    <string name="hud_fps_unit">fps</string>
 </resources>
