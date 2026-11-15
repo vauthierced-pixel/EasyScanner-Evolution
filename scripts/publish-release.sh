@@ -21,9 +21,17 @@ if [[ ! "$RUN_ID" =~ ^[0-9]+$ ]]; then
 fi
 
 tag="v${VERSION}"
+existing_release=false
 if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-  echo "Release $tag already exists; preserving existing APK."
-  exit 0
+  if [[ "${MARK_LATEST:-false}" != "true" ]]; then
+    echo "Release $tag already exists; preserving its APK."
+    exit 0
+  fi
+  if gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fxq "EasyScanner-Evolution.apk"; then
+    echo "Release $tag already includes the stable latest-download alias."
+    exit 0
+  fi
+  existing_release=true
 fi
 
 run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}")"
@@ -63,6 +71,9 @@ fi
 asset="EasyScanner-Evolution-${tag}.apk"
 cp "${apk_files[0]}" "$outdir/release/$asset"
 unzip -tqq "$outdir/release/$asset"
+if [[ "${MARK_LATEST:-false}" == "true" ]]; then
+  cp "$outdir/release/$asset" "$outdir/release/EasyScanner-Evolution.apk"
+fi
 (
   cd "$outdir/release"
   sha256sum "$asset" > "${asset}.sha256"
@@ -89,12 +100,20 @@ if [[ "${MARK_LATEST:-false}" == "true" ]]; then
   latest_flag="--latest"
 fi
 
-gh release create "$tag" \
-  "$outdir/release/$asset" "$outdir/release/${asset}.sha256" \
-  --repo "$GITHUB_REPOSITORY" \
-  --target "main" \
-  --title "EasyScanner Evolution ${VERSION}" \
-  --notes-file "$outdir/notes.md" \
-  "$latest_flag"
+if [[ "$existing_release" == "true" ]]; then
+  gh release upload "$tag" "$outdir/release/EasyScanner-Evolution.apk" --repo "$GITHUB_REPOSITORY"
+  echo "Added stable download alias to release $tag"
+else
+  assets=("$outdir/release/$asset" "$outdir/release/${asset}.sha256")
+  if [[ "${MARK_LATEST:-false}" == "true" ]]; then
+    assets+=("$outdir/release/EasyScanner-Evolution.apk")
+  fi
+  gh release create "$tag" "${assets[@]}" \
+    --repo "$GITHUB_REPOSITORY" \
+    --target "main" \
+    --title "EasyScanner Evolution ${VERSION}" \
+    --notes-file "$outdir/notes.md" \
+    "$latest_flag"
+fi
 
 echo "Published: https://github.com/${GITHUB_REPOSITORY}/releases/tag/$tag"
