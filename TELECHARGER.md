@@ -2,6 +2,12 @@
 
 **Cette page regroupe toutes les versions Android. Garde ce lien dans tes favoris : elle restera à la même adresse.**
 
+## Télécharger la dernière version en un clic
+
+**[TÉLÉCHARGER LA DERNIÈRE VERSION — EasyScanner-Evolution.apk](https://github.com/vauthierced-pixel/EasyScanner-Evolution/releases/latest/download/EasyScanner-Evolution.apk)**
+
+Ce lien est permanent : il pointe vers l'APK de la **dernière version publiée**. Tu peux le garder dans les favoris de ton téléphone. Aucun fichier ZIP à ouvrir et aucune recherche dans GitHub Actions.
+
 ## Dernière version disponible
 
 ### EasyScanner Evolution — 0.3.1-evolution.3
@@ -42,7 +48,7 @@ Pour l'instant, la publication se fait depuis le workflow GitHub **[Publier un A
 1. L'APK doit d'abord être compilé avec succès par **[Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**.
 2. Ouvre le workflow **Publier un APK permanent**, puis **Run workflow**.
 3. Indique la valeur exacte de `versionName` (exemple : `0.3.1-evolution.4`) et l'ID de la compilation Android réussie (nombre visible dans l'URL de l'exécution).
-4. Après publication, ajoute son nouveau lien direct au tableau de cette page.
+4. Après publication, ajoute le nouveau lien à l'historique sur cette page. Le lien « dernière version » situé tout en haut fonctionnera sans changement.
 
 Le script refuse de publier une compilation échouée ou de remplacer une Release déjà existante. Les tags des Releases archivées se rapportent à la documentation sur la branche `main` ; les notes de chaque Release donnent le commit exact ayant produit l'APK sur la branche de développement.
 
