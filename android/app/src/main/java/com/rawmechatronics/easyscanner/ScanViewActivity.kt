@@ -1,6 +1,8 @@
 package com.rawmechatronics.easyscanner
 
 import android.content.Intent
+import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.LruCache
@@ -20,6 +22,8 @@ class ScanViewActivity : AppCompatActivity() {
     private var photos: List<File> = emptyList()
     private var rotation = 0
     private val decoder = Executors.newSingleThreadExecutor()
+    private val daoWorker = Executors.newSingleThreadExecutor()
+    private var daoBusy = false
     private val thumbs = object : LruCache<Int, Bitmap>(16 * 1024 * 1024) {
         override fun sizeOf(key: Int, value: Bitmap) = value.byteCount
     }
@@ -33,6 +37,21 @@ class ScanViewActivity : AppCompatActivity() {
         title = intent.getStringExtra(EXTRA_NAME) ?: getString(R.string.library)
         val dir = intent.getStringExtra(EXTRA_DIR)?.let(::File)
         val cloud = intent.getStringExtra(EXTRA_CLOUD)?.let(::File)
+        b.daoExport.visibility = if (cloud?.isFile == true) View.VISIBLE else View.GONE
+        if (cloud?.isFile == true) {
+            b.daoExport.setOnClickListener {
+                val choices = arrayOf(
+                    getString(R.string.dao_xyz_full), getString(R.string.dao_xyz_grid),
+                    getString(R.string.dao_csv_full), getString(R.string.dao_csv_grid)
+                )
+                AlertDialog.Builder(this).setTitle(R.string.dao_export_title)
+                    .setItems(choices) { _, selection ->
+                        val format = if (selection < 2) PlyDaoExporter.Format.XYZ else PlyDaoExporter.Format.CSV
+                        val voxel = if (selection % 2 == 1) 1.0 else null
+                        exportDao(cloud, format, voxel)
+                    }.show()
+            }
+        }
 
         if (cloud == null) b.cloudInfo.setText(R.string.cloud_none)
         else {
@@ -70,6 +89,32 @@ class ScanViewActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Runs disk conversion off the UI thread. Source scan PLY is preserved;
+     * conversion output is in Download/EasyScanner/DAO.
+     */
+    private fun exportDao(cloud: File, format: PlyDaoExporter.Format, voxelMm: Double?) {
+        if (daoBusy) return
+        daoBusy = true
+        b.daoExport.isEnabled = false
+        b.daoExport.setText(R.string.dao_exporting)
+        val appContext = applicationContext
+        daoWorker.execute {
+            val result = runCatching { DaoDownloads.export(appContext, cloud, format, voxelMm) }
+            runOnUiThread {
+                if (isFinishing || isDestroyed) return@runOnUiThread
+                daoBusy = false
+                b.daoExport.isEnabled = true
+                b.daoExport.setText(R.string.dao_export_button)
+                result.onSuccess { stats ->
+                    Toast.makeText(this, getString(R.string.dao_export_done, stats.outputPoints, stats.inputPoints), Toast.LENGTH_LONG).show()
+                }.onFailure { e ->
+                    Toast.makeText(this, getString(R.string.dao_export_failed, e.message ?: e.javaClass.simpleName), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         b.cloud.onPause()
@@ -83,6 +128,7 @@ class ScanViewActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         decoder.shutdownNow()
+        daoWorker.shutdown()
         thumbs.evictAll()
     }
 
