@@ -22,6 +22,9 @@ val localProps = Properties().apply {
     rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
 }
 
+// Only a trusted GitHub Actions release job supplies the private key path.
+val releaseKeystorePath = System.getenv("EASYCAN_RELEASE_KEYSTORE")
+
 android {
     namespace = "com.rawmechatronics.easyscanner"
     compileSdk = 36
@@ -33,16 +36,35 @@ android {
         applicationId = "com.rawmechatronics.easyscanner.evolution"
         minSdk = rustApi
         targetSdk = 36
-        versionCode = 8
-        versionName = "0.3.1-evolution.4"
+        versionCode = 9
+        versionName = "0.3.1-evolution.5"
         ndk { abiFilters += rustAbis }
     }
 
+    signingConfigs {
+        if (!releaseKeystorePath.isNullOrBlank()) {
+            create("evolutionPrivate") {
+                storeFile = file(releaseKeystorePath)
+                storePassword = requireNotNull(System.getenv("EASYCAN_RELEASE_STORE_PASSWORD")) {
+                    "Missing EASYCAN_RELEASE_STORE_PASSWORD"
+                }
+                keyAlias = requireNotNull(System.getenv("EASYCAN_RELEASE_KEY_ALIAS")) {
+                    "Missing EASYCAN_RELEASE_KEY_ALIAS"
+                }
+                keyPassword = requireNotNull(System.getenv("EASYCAN_RELEASE_KEY_PASSWORD")) {
+                    "Missing EASYCAN_RELEASE_KEY_PASSWORD"
+                }
+            }
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
-            // installable for on-device performance runs without a release key
-            signingConfig = signingConfigs.getByName("debug")
+            // Without environment credentials this build stays unsigned.
+            // The publication workflow verifies the signed artifact.
+            if (!releaseKeystorePath.isNullOrBlank()) {
+                signingConfig = signingConfigs.getByName("evolutionPrivate")
+            }
         }
     }
 
