@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- High-contrast technical UI; colors intentionally shared between pages. -->
     <style name="Theme.EasyScanner" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">#818CF8</item>
-        <item name="colorOnPrimary">#08080A</item>
-        <item name="android:windowBackground">#08080A</item>
-        <item name="android:statusBarColor">#08080A</item>
-        <item name="android:navigationBarColor">#08080A</item>
+        <item name="colorPrimary">@color/evo_primary</item>
+        <item name="colorOnPrimary">@color/evo_on_primary</item>
+        <item name="colorSecondary">@color/evo_success</item>
+        <item name="colorSurface">@color/evo_surface</item>
+        <item name="colorOnSurface">@color/evo_text</item>
+        <item name="android:windowBackground">@color/evo_background</item>
+        <item name="android:statusBarColor">@color/evo_background</item>
+        <item name="android:navigationBarColor">@color/evo_background</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.EasyScanner.Settings" parent="Theme.Material3.Dark">
-        <item name="colorPrimary">#818CF8</item>
+        <item name="colorPrimary">@color/evo_primary</item>
+        <item name="colorOnPrimary">@color/evo_on_primary</item>
+        <item name="colorSecondary">@color/evo_success</item>
+        <item name="colorSurface">@color/evo_surface</item>
+        <item name="colorOnSurface">@color/evo_text</item>
+        <item name="android:windowBackground">@color/evo_background</item>
+        <item name="android:statusBarColor">@color/evo_background</item>
+        <item name="android:navigationBarColor">@color/evo_background</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

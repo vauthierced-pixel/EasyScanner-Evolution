@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="evo_background">#0A111A</color>
+    <color name="evo_surface">#12202D</color>
+    <color name="evo_surface_alt">#182B3A</color>
+    <color name="evo_primary">#58D0DE</color>
+    <color name="evo_on_primary">#061A20</color>
+    <color name="evo_text">#F1F7FC</color>
+    <color name="evo_muted">#A1B5C4</color>
+    <color name="evo_success">#65D9A5</color>
+    <color name="evo_outline">#335064</color>
+</resources>

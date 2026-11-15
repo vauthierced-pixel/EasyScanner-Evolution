@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_group_interface">Interface</string>
+    <string name="pref_mode_expert">Expert mode</string>
+    <string name="pref_mode_expert_desc">The four tool modes (View, Camera, Laser, Scan) instead of the guided steps</string>
+    <string name="pref_group_performance">Performance</string>
+    <string name="pref_target_fps">Target frame rate</string>
+    <string name="pref_auto_resolution">Auto resolution</string>
+    <string name="pref_auto_resolution_desc">Lower the analysis resolution until processing keeps up with the target frame rate (and raise it back when there is headroom)</string>
+    <string name="pref_resolution_max">Maximum resolution</string>
+    <string name="pref_resolution_max_desc">%s — the starting point for auto, the fixed size otherwise</string>
+    <string name="pref_group_camera">Camera</string>
+    <string name="pref_camera_back">Back camera</string>
+    <string name="pref_manual_focus">Manual focus</string>
+    <string name="pref_manual_focus_desc">Lock the lens: the calibration only holds at the focus it was taken at</string>
+    <string name="pref_focus_diopters">Focus (tenths of a diopter; 30 = 33 cm)</string>
+    <string name="pref_manual_exposure">Manual exposure</string>
+    <string name="pref_manual_exposure_desc">Short exposure makes the laser stand out</string>
+    <string name="pref_exposure_us">Exposure (µs)</string>
+    <string name="pref_iso">ISO</string>
+    <string name="pref_exposure_comp">Exposure compensation (auto exposure, steps)</string>
+    <string name="pref_group_board">ChArUco board</string>
+    <string name="pref_board_squares_x">Squares X</string>
+    <string name="pref_board_squares_y">Squares Y</string>
+    <string name="pref_board_square_mm">Square (mm)</string>
+    <string name="pref_board_marker_mm">Marker (mm)</string>
+    <string name="pref_board_dict">ArUco dictionary id (5 = DICT_5X5_100)</string>
+    <string name="pref_group_laser">Laser</string>
+    <string name="pref_laser_enabled">Detect the laser stripe</string>
+    <string name="pref_laser_color">Laser colour</string>
+    <string name="pref_laser_threshold">Response floor (lower = more sensitive)</string>
+    <string name="pref_laser_saturation">Minimum saturation</string>
+    <string name="pref_laser_no_board">Search without the board</string>
+    <string name="pref_laser_no_board_desc">Look for the stripe in the whole frame when no pose is known (shown, not triangulated)</string>
+    <string name="pref_laser_volume_height">Working volume height (mm, 0 = board side)</string>
+    <string name="pref_laser_volume_margin">Working volume margin (mm)</string>
+    <string name="pref_group_photos">Photos</string>
+    <string name="pref_photos_scan">Take photos during every scan</string>
+    <string name="pref_photos_scan_desc">Posed full-resolution photos next to the laser cloud, for a textured mesh (orbiter-recon)</string>
+    <string name="pref_photos_trigger">Take a photo</string>
+    <string name="pref_photos_interval">Interval (s)</string>
+    <string name="pref_photos_move">Movement: distance (mm)</string>
+    <string name="pref_photos_turn">Movement: turn (degrees)</string>
+    <string name="pref_photos_max_speed">Hold while moving faster than (mm/s)</string>
+    <string name="pref_photos_max_turn">Hold while turning faster than (deg/s)</string>
+    <string name="pref_group_calibration">Calibration</string>
+    <string name="pref_calib_views">Camera calibration views</string>
+    <string name="pref_laser_planes">Laser plane distinct lines</string>
+    <string name="pref_group_detection">Detector and overlay</string>
+    <string name="pref_aruco3">ArUco3 fast detection</string>
+    <string name="pref_aruco3_desc">Faster on large boards, but loses small or distant ones (and the governor shrinks the image)</string>
+    <string name="pref_roi_tracking">Track the board (search near its last position)</string>
+    <string name="pref_draw_grid">Draw the board grid</string>
+    <string name="pref_draw_axes">Draw the axes</string>
+    <string name="pref_draw_corners">Draw detected corners</string>
+    <string name="pref_draw_volume">Draw the working volume</string>
+    <string name="pref_draw_cloud">Draw the scan cloud</string>
+</resources>

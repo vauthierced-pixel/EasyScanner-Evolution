@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/evo_background">
 
     <Button
         android:id="@+id/daoExport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dao_export_button"
+        android:layout_margin="10dp"
         android:visibility="gone" />
 
     <FrameLayout
@@ -28,10 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_margin="6dp"
-            android:background="#B308080A"
+            android:background="@drawable/bg_evo_hud"
             android:fontFamily="monospace"
             android:padding="6dp"
-            android:textColor="#FAFAFA"
+            android:textColor="@color/evo_text"
             android:textSize="11sp" />
     </FrameLayout>
 
@@ -43,7 +45,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="12dp"
         android:paddingBottom="4dp"
-        android:textColor="#B0FAFAFA"
+        android:textColor="@color/evo_muted"
         android:textSize="13sp" />
 
     <GridView
