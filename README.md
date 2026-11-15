@@ -1,182 +1,113 @@
-# Easy Scanner v0.2
+# EasyScanner Evolution
 
-A hand-held laser line scanner built around an Android phone: the phone's
-camera, a cheap line laser clamped next to it, and a printed ChArUco board as
-the world anchor. The phone finds its own pose from the board, triangulates
-the laser stripe against a calibrated laser plane and accumulates a coloured
-point cloud in millimetres — all on the device, in real time. It can also take
-posed full-resolution photos alongside the scan, so the photogrammetry
-pipeline of [Orbiter](https://github.com/RawMechatronicsOrg/Orbiter) turns a
-session into a textured mesh.
+**Scanner 3D à laser linéaire sur smartphone Android — projet documenté en français.**
 
-This is **not a finished product**. It's a kit of working pieces — an Android
-app and printable parts — so other people can build something similar without
-re-deriving everything from scratch. Adapt it to whatever phone, laser and
-profile you have on the shelf.
+Cette application utilise la caméra du téléphone, un **laser projetant une ligne** et une **mire ChArUco imprimée** pour reconstituer un nuage de points 3D. Les coordonnées sont exprimées en millimètres, dans un repère local lié à la mire.
 
-**Status**: the app scans on a real phone — camera calibration, laser-plane
-calibration and a hand-held scan exported as PLY ([first scan](#first-scan-on-a-real-phone)).
-On the emulator the engine's end-to-end tests put the camera within
-0.07–1.3 mm at ~500 mm and the laser plane within 0.005°; the accuracy of
-real scans has not been measured yet. v0.2 adds a ready
-[APK](https://github.com/RawMechatronicsOrg/EasyScanner/releases), the
-[assembly](cad/assembly/README.md) (STEP, FreeCAD, glTF), the flange clip for
-the laser mount, printable [ChArUco boards](#charuco-boards) from A4 to A0
-with their generator, and Z-up PLY exports shared straight from the phone.
+> **Projet expérimental** : ce n'est pas un instrument de topographie certifié. La précision des scans réels n'a pas été caractérisée de manière générale. Ne pas utiliser les mesures sans vérification indépendante.
 
-## Required setup
+![Principe de fonctionnement : téléphone, laser et mire ChArUco](docs/images/scan_schematic.jpg)
 
-![How a scan works: the phone looks down at the ChArUco board, the laser draws a line across the board and the object](docs/images/scan_schematic.jpg)
+## Bienvenue — les trois liens utiles
 
-The laser must project a **line**, not a dot: a line laser module (a rod or
-Powell lens in front of the diode) fans the beam into a flat sheet of light.
-Where the sheet meets the object it draws a stripe; the camera sees the stripe
-and the board at once, so every stripe pixel becomes a 3D point in the board's
-frame. Keep the board in view while you sweep the line over the object.
+| Je veux... | Ouvrir |
+|---|---|
+| **Comprendre ce que font les fichiers** | **[Guide en français : comprendre les dossiers et les fichiers](docs/COMPRENDRE_LES_FICHIERS.md)** |
+| **Installer la dernière version Android Evolution** | **[Compilations APK sur GitHub](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)** |
+| **Voir le code que nous modifions** | **[Branche Evolution](https://github.com/vauthierced-pixel/EasyScanner-Evolution/tree/evolution-v0.3-fr-apk)** |
 
-| Side | From above | From below |
-|---|---|---|
-| ![Side view of the scanner](docs/images/assembly_side.jpg) | ![The scanner from above](docs/images/assembly_top.jpg) | ![The scanner from below](docs/images/assembly_under.jpg) |
+**Attention aux branches :** `main` (celle affichée par défaut) conserve le code du projet d'origine et cette documentation française. Nos améliorations Android sont actuellement sur la branche **`evolution-v0.3-fr-apk`**, dans [la proposition de modification n° 1](https://github.com/vauthierced-pixel/EasyScanner-Evolution/pull/1). Ne te fie donc pas uniquement à la liste des fichiers de `main` pour rechercher les nouveautés.
 
-The phone sits in the clamp with its cameras facing down; the clamp snaps
-onto an aluminium U profile, and the ball-head mount at the profile's end
-holds the laser. The assembly as 3D files: [`cad/assembly`](cad/assembly/README.md).
+[English original documentation / Documentation originale en anglais](README_EN.md)
 
-What you need:
+## Ce qui fonctionne déjà dans notre version Evolution
 
-- An Android phone, Android 10 (API 29) or newer, arm64.
-- A line laser module, Ø12 mm body (red or green).
-- A 16 × 13 × 1.5 mm aluminium U profile, about 120 mm — the scanner's frame.
-- An M5 × 25 socket head cap screw and an M5 tap (for the ball).
-- The printed parts from [`cad/`](cad/README.md) (PLA is fine).
-- A ChArUco board printed flat on a stiff sheet — see [ChArUco boards](#charuco-boards).
+- Application Android installable séparément de l'EasyScanner d'origine.
+- Parcours principal et galerie des scans traduits en français.
+- Reconnaissance de mire ChArUco, calibration caméra et laser, numérisation et visualisation du nuage : fonctions héritées du projet d'origine.
+- Enregistrement du nuage de points au format **PLY**.
+- **Export DAO XYZ / CSV** directement depuis un scan, en millimètres.
+- Option de réduction à **un point par cellule de 1 mm** (sans modifier le PLY source).
+- Compilation automatique de l'**APK** par GitHub Actions et tests du convertisseur.
 
-## Quick start
+Les derniers exports XYZ/CSV se trouvent dans `Téléchargements/EasyScanner/DAO/` sur le téléphone. Les coordonnées sont locales : **pas de géoréférencement automatique**, et la réduction par grille ne supprime pas spécifiquement les points isolés.
 
-1. **Print the parts**: `cad/export/` (ball-head laser mount: the snap-on
-   block `ball_mount_clip.stl` or the flange clip `ball_mount_flange_clip.stl`)
-   and `cad/phone-clamp/export/` (phone clamp). Print orientations and
-   settings are in [cad/README.md](cad/README.md).
-2. **Assemble**: clamp the phone and the laser mount onto the profile, put
-   the laser into the ring, tilt the ball so the stripe crosses the camera's
-   view, tighten the nut.
-3. **Install the app**: download `easyscanner-<version>.apk` from
-   [Releases](https://github.com/RawMechatronicsOrg/EasyScanner/releases) and
-   open it on the phone (allow installing from this source), or
-   `adb install easyscanner-<version>.apk`. To build it yourself
-   ([android/README.md](android/README.md) → Toolchain):
-   ```powershell
-   cd android
-   .\gradlew assembleDebug
-   adb install app\build\outputs\apk\debug\app-debug.apk
-   ```
-4. **Print a board**, then follow the app's steps — each one says what to do
-   and moves on by itself when it is done; a finished step can be tapped to
-   do it again:
-   1. **Board**: pick the board you printed (its numbers are on the sheet)
-      and point the phone at it; Board OK once the grid lies on the print.
-   2. **Focus**: hold the phone at the scanning distance and lock the focus
-      where autofocus settled (a calibration holds only at its focus).
-   3. **Camera**: Start, then move the phone slowly around the board at
-      varied tilts until it says SAVED.
-   4. **Laser plane**: Start, then sweep the stripe across the empty board at
-      varied tilts. A plane fitted with an earlier camera calibration is
-      refused, so a re-calibrated camera always gets a fresh plane.
-   5. **Scan**: put the object on the board, Start, sweep the laser over it
-      and walk around it; photos are taken on the way. Finish copies the
-      whole scan to `Download/EasyScanner/<time>/` — `scan.ply` (binary
-      PLY, mm, Z up, the object standing over the board), `laser.ply`, the
-      photos and `session.json` for `orbiter-recon` — where a computer sees
-      it over USB; Share PLY sends the cloud on.
+## Où sont les fichiers ?
 
-   Nothing is lost on the way: the scan's cloud is written into its session
-   on every pause and whenever the app leaves the screen, the session carries
-   on after it comes back, and a scan that never reached `Download` (the app
-   was killed) is offered for copying on the next start. Settings → Expert
-   mode brings back the four tool modes (View, Camera, Laser, Scan).
+| Dossier | Explication |
+|---|---|
+| [`android/`](android/) | L'application du téléphone : Kotlin (interface) et Rust (calculs 3D) |
+| [`cad/`](cad/) | Pièces mécaniques et supports à imprimer en 3D |
+| [`cad/assembly/`](cad/assembly/) | Assemblage complet du scanner : STEP, FreeCAD et GLB |
+| [`charuco/boards/`](charuco/boards/) | Mires ChArUco à imprimer en A4, A3, A2, A1 ou A0 |
+| [`docs/images/`](docs/images/) | Images de montage et illustrations |
+| [`docs/COMPRENDRE_LES_FICHIERS.md`](docs/COMPRENDRE_LES_FICHIERS.md) | **Explications détaillées, fichier par fichier, en français** |
 
-   The gallery button next to Settings lists the scans on the phone: a tap
-   opens the cloud (drag to orbit, pinch to zoom, two fingers to pan, double
-   tap to frame it again) and the scan's photos, full screen on a tap.
+Les noms techniques restent en anglais (`CameraController.kt`, `cloud.rs`, `build.gradle.kts`, etc.), car le programme en dépend. Ils sont traduits et expliqués dans le guide.
 
-## First scan on a real phone
+## Matériel nécessaire pour un scan 3D
 
-2026-10-19, from the phone's screen recording: calibrating the camera (64
-views of the board), the laser plane (rms 0.35 mm), scanning a phone
-and exporting the cloud — 254 219 points.
+![Vue latérale du scanner](docs/images/assembly_side.jpg)
 
-| Camera calibration | Laser plane | Scanning | Export |
+- Smartphone Android compatible, Android 10 ou plus récent, processeur ARM64.
+- **Module laser linéaire**, idéalement avec boîtier de **12 mm** pour le support fourni, et classe de sécurité clairement identifiée.
+- Profilé aluminium en U **16 × 13 × 1,5 mm**, longueur approximative **120 mm**.
+- Vis M5 × 25 et taraud M5 pour la rotule.
+- Pièces mécaniques imprimées à partir des fichiers [`cad/`](cad/).
+- Mire ChArUco imprimée à taille réelle et fixée bien à plat.
+
+Ne jamais viser les yeux avec le laser, ni diriger le faisceau vers une surface réfléchissante. Éviter les modules puissants non classés ou dont l'étiquetage de sécurité n'est pas fiable.
+
+## Première étape : imprimer la mire
+
+Les mires sont ici : [`charuco/boards/`](charuco/boards/).
+
+| Papier | Fichier | Dimensions de la grille | Taille des carrés |
 |---|---|---|---|
-| ![Camera calibration on the phone](docs/images/phone_camera_calibration.jpg) | ![Laser plane calibration, rms 0.35 mm](docs/images/phone_laser_plane.jpg) | ![Scanning: the laser stripe and the growing cloud](docs/images/phone_scanning.jpg) | ![Exported 254219 points](docs/images/phone_exported.jpg) |
+| **A4** | [Télécharger la mire A4](charuco/boards/charuco_A4_4x6_45mm.pdf) | 4 × 6 | 45 mm |
+| **A3** | [Télécharger la mire A3](charuco/boards/charuco_A3_6x8_45mm.pdf) | 6 × 8 | 45 mm |
+| A2 | [Mire A2](charuco/boards/charuco_A2_8x10_45mm.pdf) | 8 × 10 | 45 mm |
 
-![The exported cloud of that scan](docs/images/first_scan_cloud.jpg)
+Imprimer à **100 % / taille réelle**, sans « ajuster à la page ». Vérifier la barre de contrôle de 100 mm avec une règle. Le dictionnaire des mires fournies est `DICT_5X5_100`, identifiant **5**.
 
-The recording predates the rename, so the screens still say HandScanner and
-export in the old board frame.
+Sans laser, tu peux déjà essayer la détection de la mire et la calibration de la caméra. Pour reconstruire la forme d'un objet, il faut ensuite le **laser linéaire fixé rigidement au téléphone**.
 
-## ChArUco boards
+## Comment télécharger et installer l'APK
 
-Ready-made boards in [`charuco/boards`](charuco/boards), vector PDF at true
-scale. All use `DICT_5X5_100` (dictionary id 5) and marker ids from 0.
+1. Ouvrir **[Actions — Android APK (Evolution)](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-apk.yml)**.
+2. Choisir une compilation terminée avec une **coche verte**.
+3. Descendre jusqu'à **Artifacts** et télécharger **EasyScanner-Evolution-APK**.
+4. Décompresser l'archive ZIP : elle contient `app-debug.apk`.
+5. Ouvrir cet APK sur le smartphone pour installer la version de test.
 
-| Paper | Squares (X × Y) | Square | Marker | File |
-|---|---|---|---|---|
-| A4 | 4 × 6 | 45 mm | 33.3 mm | [charuco_A4_4x6_45mm.pdf](charuco/boards/charuco_A4_4x6_45mm.pdf) |
-| A3 | 6 × 8 | 45 mm | 33.3 mm | [charuco_A3_6x8_45mm.pdf](charuco/boards/charuco_A3_6x8_45mm.pdf) |
-| A2 | 8 × 10 | 45 mm | 33.3 mm | [charuco_A2_8x10_45mm.pdf](charuco/boards/charuco_A2_8x10_45mm.pdf) |
-| A1 | 9 × 13 | 60 mm | 44.4 mm | [charuco_A1_9x13_60mm.pdf](charuco/boards/charuco_A1_9x13_60mm.pdf) |
-| A0 | 10 × 14 | 80 mm | 59.2 mm | [charuco_A0_10x14_80mm.pdf](charuco/boards/charuco_A0_10x14_80mm.pdf) |
+Les archives de compilation ne sont pas conservées indéfiniment (30 jours prévus par le workflow). Il peut être nécessaire de se connecter à GitHub pour les télécharger.
 
-Pick the smallest board that the object leaves mostly visible; bigger squares
-are read from further away. In the app's Settings → ChArUco board enter
-Squares X, Squares Y, Square (mm) and Marker (mm) from the table (or from the
-line printed on the sheet); the app's default is 8 × 8 of 45 mm.
+## Comprendre les mots techniques
 
-Printing: print at 100 % ("Actual size"), never "Fit to page", and check the
-100 mm scale bar with a ruler — the square size is what makes the scan
-metric; if it printed slightly off, enter the measured square and marker sizes. Glue the sheet
-flat onto something stiff (foam board, glass); a wavy sheet bends the frame.
+- **APK** : fichier d'installation Android.
+- **PLY** : format de nuage de points 3D, pouvant contenir les couleurs.
+- **XYZ / CSV** : tableaux de points utilisables pour des traitements DAO.
+- **Kotlin** : langage de programmation de l'interface Android.
+- **Rust** : langage du moteur de calcul géométrique.
+- **ChArUco** : mire à carrés et marqueurs utilisée pour repérer la caméra.
+- **GitHub Actions** : service qui compile et teste l'application automatiquement.
+- **Fork** : notre copie indépendante du projet d'origine.
+- **Branche** : version de travail séparée, où l'on peut modifier le programme sans toucher à l'autre.
 
-Other sizes: [`charuco/make_board.py`](charuco/make_board.py) draws any board.
+Pour aller plus loin : **[le guide complet en français](docs/COMPRENDRE_LES_FICHIERS.md)**.
 
-```powershell
-pip install opencv-python numpy reportlab pymupdf
-cd charuco
-python make_board.py                                        # every preset above into boards/
-python make_board.py --paper A3 --squares 7x9 --square 40 -o my_board.pdf
-python make_board.py --check                                # rasterise the PDFs and detect every corner
-```
+## Origine du projet et licences
 
-`--marker` sets the marker size (default 0.74 of the square), `--dict` the
-ArUco dictionary; a board needs at most as many markers as the dictionary has
-(half its squares).
+EasyScanner Evolution est un projet dérivé de **[Raw Mechatronics — EasyScanner](https://github.com/RawMechatronicsOrg/EasyScanner)**. Le projet initial est à l'origine de l'application, du moteur Rust, de la conception mécanique et des mires. Nous conservons [la documentation initiale en anglais](README_EN.md).
 
-## Repository map
+| Éléments | Licence |
+|---|---|
+| Code source et scripts | [Apache-2.0](LICENSE) |
+| Conception des pièces mécaniques (hors support de téléphone) | [CERN-OHL-S-2.0](cad/LICENSE) |
+| Support de téléphone et dérivés concernés | [CC BY-NC-SA 4.0](cad/phone-clamp/LICENSE) |
 
-```
-EasyScanner/
-├── README.md        ← you are here
-├── LICENSE          ← Apache-2.0 (default for source code)
-├── android/         ← the Android app: Kotlin UI + Rust core (OpenCV ChArUco, laser, geometry)
-├── cad/             ← printable parts, CadQuery sources + STL
-│   ├── LICENSE      ← CERN-OHL-S-2.0 (hardware)
-│   ├── assembly/    ← the whole scanner: STEP, FreeCAD, glTF, render script
-│   └── phone-clamp/ ← the phone clamp, a remix of a third-party model
-│       └── LICENSE  ← CC BY-NC-SA 4.0
-├── charuco/         ← ChArUco board generator and ready PDFs (A4–A0)
-└── docs/images/     ← renders used in this README
-```
+Le dépôt est public : n'y dépose pas de documents de travail confidentiels ni de données personnelles.
 
-## License
+---
 
-| What                                                     | License                                       |
-|----------------------------------------------------------|-----------------------------------------------|
-| Source code (Android app, Rust core, scripts, configs, `charuco/`) | [Apache-2.0](LICENSE)               |
-| Hardware designs in `cad/` (CadQuery models, `export_stl.py`, STL, the assembly) | [CERN-OHL-S-2.0](cad/LICENSE) |
-| The phone clamp in `cad/phone-clamp/` and its parts in `cad/assembly/` | [CC BY-NC-SA 4.0](cad/phone-clamp/LICENSE) |
-| Renders in `docs/images/` (they show the phone clamp)    | [CC BY-NC-SA 4.0](cad/phone-clamp/LICENSE)    |
-
-The phone clamp is [Tripod Mobile Phone Clamp V2](https://www.printables.com/model/25969-tripod-mobile-phone-clamp-v2)
-by Stamos, remixed for the scanner; it keeps its original non-commercial
-share-alike licence. Files outside `cad/` are covered by the root `LICENSE`
-(Apache-2.0) unless the table says otherwise.
+**Version française de découverte et de développement.** Les fonctions de numérisation et les mesures devront être évaluées sur des scans réels avant tout usage technique exigeant.
