@@ -8,6 +8,8 @@
 
 Ce lien est permanent : il pointe vers l'APK de la **dernière version publiée**. Tu peux le garder dans les favoris de ton téléphone. Aucun fichier ZIP à ouvrir et aucune recherche dans GitHub Actions.
 
+**Pour préparer les futures mises à jour sans désinstallation :** [Guide de la signature Android permanente et privée](docs/SIGNATURE_PRIVEE.md). La première version utilisant cette nouvelle signature sera `0.3.1-evolution.4`, **uniquement après configuration des secrets par le propriétaire**.
+
 ## Dernière version disponible
 
 ### EasyScanner Evolution — 0.3.1-evolution.3
