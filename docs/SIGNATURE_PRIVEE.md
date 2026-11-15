@@ -1,6 +1,6 @@
 # Signature permanente et privée d'EasyScanner Evolution
 
-**But :** à partir de la version `0.3.1-evolution.4`, créer et réutiliser la **même signature Android privée** pour les versions APK publiées dans GitHub Releases.
+**But :** à partir de la version `0.3.1-evolution.5`, créer et réutiliser la **même signature Android privée** pour les versions APK publiées dans GitHub Releases.
 
 **Coût : gratuit.** Pas besoin d'abonnement GitHub, ni de publication sur Google Play.
 
@@ -61,14 +61,14 @@ Quand les quatre secrets existent :
 1. Ouvre [**APK Android signé (permanent)**](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/android-signed-release.yml).
 2. Clique sur **Run workflow**.
 3. Laisse la branche **main** sélectionnée et confirme.
-4. GitHub récupère le code de `evolution-signature-privee`, construit et vérifie un APK signé, puis le publie dans une nouvelle Release si tout réussit.
+4. GitHub récupère le code de `evolution-signature-stable`, construit et vérifie un APK signé, puis le publie dans une nouvelle Release si tout réussit.
 5. Retrouve l'APK dans [**Télécharger EasyScanner Evolution**](https://github.com/vauthierced-pixel/EasyScanner-Evolution/blob/main/TELECHARGER.md) : le lien permanent « dernière version » pointera vers le nouvel APK.
 
 Aucune nouvelle publication n'est effectuée tant que tu n'as pas configuré les secrets et lancé cette action.
 
 ## 5. Une transition unique entre les anciennes signatures et la nouvelle
 
-Les versions **0.3.1-evolution.1 à .3** sont signées avec des **clés de débogage générées sur les machines GitHub**. La nouvelle clé permanente sera **différente**.
+Les versions **0.3.1-evolution.1 à .4** actuellement compilées en mode débogage sont signées avec des **clés de débogage générées sur les machines GitHub**. La nouvelle clé permanente sera **différente**.
 
 Android refusera normalement de mettre directement à jour l'une des anciennes versions par une nouvelle signature. Il faudra donc, **une fois seulement** :
 
@@ -81,10 +81,10 @@ Les mises à jour suivantes pourront s'installer par-dessus si **l'identifiant d
 
 ## 6. Ce qui a été préparé dans le code
 
-- La branche `evolution-signature-privee` porte la future version `0.3.1-evolution.4` / `versionCode 8`.
+- La branche `evolution-signature-stable`, construite à partir de l’interface professionnelle française, porte la future version `0.3.1-evolution.5` / `versionCode 9`.
 - Le fichier Gradle lit la clé et ses mots de passe uniquement à partir de variables d'environnement, sans rien inscrire dans le dépôt.
 - Le workflow manuel `APK Android signé (permanent)` ne fonctionne que depuis la branche principale et ne publie un APK que **si les quatre secrets existent**, si la compilation réussit et si `apksigner` confirme une signature valide.
-- Les anciennes Releases restent accessibles : aucune clé ni signature précédente n'est modifiée.
+- Les trois anciennes Releases restent accessibles : aucune clé ni signature précédente n'est modifiée.
 
 ## Références officielles
 
