@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_group_interface">Interface</string>
+    <string name="pref_mode_expert">Mode expert</string>
+    <string name="pref_mode_expert_desc">Affiche les quatre outils (Vue, Caméra, Laser, Scan) plutôt que le parcours guidé.</string>
+    <string name="pref_group_performance">Performances</string>
+    <string name="pref_target_fps">Cadence cible</string>
+    <string name="pref_auto_resolution">Résolution automatique</string>
+    <string name="pref_auto_resolution_desc">Adapte la résolution pour maintenir la cadence de traitement, puis l’augmente si possible.</string>
+    <string name="pref_resolution_max">Résolution maximale</string>
+    <string name="pref_resolution_max_desc">%s — limite en mode automatique ou valeur fixe sinon</string>
+    <string name="pref_group_camera">Caméra</string>
+    <string name="pref_camera_back">Caméra arrière</string>
+    <string name="pref_manual_focus">Mise au point manuelle</string>
+    <string name="pref_manual_focus_desc">Fixe la mise au point. La calibration reste valable uniquement à cette distance.</string>
+    <string name="pref_focus_diopters">Mise au point (dixièmes de dioptrie ; 30 ≈ 33 cm)</string>
+    <string name="pref_manual_exposure">Exposition manuelle</string>
+    <string name="pref_manual_exposure_desc">Une exposition courte aide à distinguer la ligne laser.</string>
+    <string name="pref_exposure_us">Durée d’exposition (µs)</string>
+    <string name="pref_iso">Sensibilité ISO</string>
+    <string name="pref_exposure_comp">Correction d’exposition automatique (niveaux)</string>
+    <string name="pref_group_board">Mire ChArUco</string>
+    <string name="pref_board_squares_x">Cases en largeur (X)</string>
+    <string name="pref_board_squares_y">Cases en hauteur (Y)</string>
+    <string name="pref_board_square_mm">Taille d’une case (mm)</string>
+    <string name="pref_board_marker_mm">Taille d’un marqueur (mm)</string>
+    <string name="pref_board_dict">Dictionnaire ArUco (5 = DICT_5X5_100)</string>
+    <string name="pref_group_laser">Laser</string>
+    <string name="pref_laser_enabled">Détecter la ligne laser</string>
+    <string name="pref_laser_color">Couleur du laser</string>
+    <string name="pref_laser_threshold">Seuil de détection (plus bas = plus sensible)</string>
+    <string name="pref_laser_saturation">Saturation minimale</string>
+    <string name="pref_laser_no_board">Rechercher sans mire</string>
+    <string name="pref_laser_no_board_desc">Recherche la ligne dans l’image entière sans mire. Affichage uniquement, sans triangulation 3D.</string>
+    <string name="pref_laser_volume_height">Hauteur du volume de travail (mm ; 0 = côté de la mire)</string>
+    <string name="pref_laser_volume_margin">Marge du volume de travail (mm)</string>
+    <string name="pref_group_photos">Photos</string>
+    <string name="pref_photos_scan">Prendre des photos pendant chaque scan</string>
+    <string name="pref_photos_scan_desc">Enregistre des photos localisées en haute définition pour reconstruire un maillage texturé (orbiter-recon).</string>
+    <string name="pref_photos_trigger">Déclenchement des photos</string>
+    <string name="pref_photos_interval">Intervalle (s)</string>
+    <string name="pref_photos_move">Déplacement : distance (mm)</string>
+    <string name="pref_photos_turn">Déplacement : rotation (degrés)</string>
+    <string name="pref_photos_max_speed">Suspendre au-delà de cette vitesse (mm/s)</string>
+    <string name="pref_photos_max_turn">Suspendre au-delà de cette rotation (°/s)</string>
+    <string name="pref_group_calibration">Calibration</string>
+    <string name="pref_calib_views">Vues pour calibrer la caméra</string>
+    <string name="pref_laser_planes">Lignes distinctes pour calibrer le laser</string>
+    <string name="pref_group_detection">Détection et affichage</string>
+    <string name="pref_aruco3">Détection rapide ArUco3</string>
+    <string name="pref_aruco3_desc">Accélère la détection des grandes mires, mais peut manquer celles qui sont petites ou éloignées.</string>
+    <string name="pref_roi_tracking">Suivre la mire autour de sa dernière position</string>
+    <string name="pref_draw_grid">Afficher la grille de la mire</string>
+    <string name="pref_draw_axes">Afficher les axes</string>
+    <string name="pref_draw_corners">Afficher les coins détectés</string>
+    <string name="pref_draw_volume">Afficher le volume de travail</string>
+    <string name="pref_draw_cloud">Afficher le nuage de points</string>
+</resources>
