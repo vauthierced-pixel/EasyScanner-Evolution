@@ -1,5 +1,55 @@
 # EasyScanner Evolution — support monobloc sans profilé métallique
 
+## Nouveau : version renforcée pour Redmi Note 14 Pro (4G et 5G)
+
+Le premier cadre générique paraissait trop léger pour maintenir rigidement la géométrie laser/caméra. Une **deuxième conception**, entièrement indépendante du modèle initial, est disponible ici :
+
+**[Source CadQuery renforcée pour Redmi Note 14 Pro](models/support_monobloc_redmi_note14pro_renforce.py)**.
+
+La géométrie générique précédente reste inchangée pour comparaison et retour arrière.
+
+### Renforcements apportés
+
+| Élément | Version initiale | Version renforcée |
+|---|---:|---:|
+| Paroi latérale des glissières | 3,8 mm | **6 mm** |
+| Semelle arrière des rails | 3,4 mm | **5,6 mm** |
+| Traverses arrière intermédiaires | 1 | **3** |
+| Nervures des bras laser | 6,2 mm de haut | **jusqu'à 14,2 mm** |
+| Plateforme triangulée reliant le laser au cadre | bras seulement | **plaque de 6,2 mm et trois nervures** |
+| Épaisseur de la bague autour du laser | 3,7 mm | **4,8 mm** |
+| Volume de matériau CAO (4G, sans coque) | ~47,7 cm³ (ancien format générique) | **114,9 cm³** |
+
+L'augmentation de matière et des sections **vise** à réduire la flexion. Elle ne prouve pas à elle seule une rigidité suffisante : aucun essai de charge, mesure de déformation ou validation d'impression n'a été effectué.
+
+### Dimensions Xiaomi officielles, hors coque
+
+| Modèle | Largeur | Hauteur | Épaisseur |
+|---|---:|---:|---:|
+| Redmi Note 14 Pro 4G | 74,92 mm | 162,16 mm | 8,24 mm |
+| Redmi Note 14 Pro 5G | 74,42 mm | 162,33 mm | 8,40 mm |
+
+Références constructeur : [Xiaomi Redmi Note 14 Pro 4G](https://www.mi.com/global/product/redmi-note-14-pro/specs/) et [Xiaomi Redmi Note 14 Pro 5G](https://www.mi.com/fr/product/redmi-note-14-pro-5g/specs/).
+
+Les modèles CAO tiennent compte d'un jeu d'insertion de 0,75 mm par côté, mais **ne comprennent pas de surcote de coque** par défaut. La profondeur du bloc photo, l'emplacement exact des boutons et la position de l'objectif utilisé par le scanner sont encore à mesurer et vérifier.
+
+### Génération des fichiers
+
+Notre [action GitHub « Support monobloc — fichiers 3D »](https://github.com/vauthierced-pixel/EasyScanner-Evolution/actions/workflows/support-monobloc.yml) produit maintenant trois conceptions : le prototype générique initial et les deux versions renforcées **4G/5G**, chacune en **STL** et **STEP**. Après exécution réussie, l'archive de téléchargement s'appelle `EasyScanner-Supports-Monobloc-Redmi-4G-5G-STL-STEP`.
+
+Exemples sur PC :
+
+```bash
+python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 4g --sortie sortie/
+python cad/models/support_monobloc_redmi_note14pro_renforce.py --modele 5g --sortie sortie/
+```
+
+**Coque :** mesurer sa surépaisseur totale, puis utiliser les options `--coque-largeur`, `--coque-longueur` et `--coque-epaisseur`. Ne pas imprimer en supposant que la taille du téléphone sans coque suffira.
+
+**Sécurité :** le cadre reste ouvert en haut, sans verrouillage anti-extraction. **Ne pas monter le vrai téléphone pour un essai en mouvement** : d'abord tester un gabarit, puis prévoir une retenue supérieure intégrée. Le clip laser et les rails doivent être ajustés au matériel réel.
+
+---
+
 **Prototype de conception paramétrique**, préparé pour étudier un support du téléphone et du laser **imprimé en une seule pièce**.
 
 Ce modèle ne reprend pas la forme du support de téléphone tiers d'origine : il s'agit d'un cadre neuf, avec deux glissières latérales, une butée basse, une traverse arrière et deux bras rigides portant un clip de laser intégré.
