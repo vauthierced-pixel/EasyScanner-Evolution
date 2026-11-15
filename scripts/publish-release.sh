@@ -80,8 +80,8 @@ Application Android expérimentale en français, dérivée du projet libre EasyS
 **Précision 3D :** prototype expérimental, non adapté à des mesures VRD sans contrôle indépendant.
 
 - [Compilation GitHub #${RUN_ID}](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID})
-- Code source de la version : \\\`${source_sha}\\\`
-- Un fichier SHA-256 permet de vérifier l'intégrité de l'APK.
+- Code source de l\'application : ${source_sha}
+- Le tag GitHub de la Release pointe vers la documentation principale (`main`), tandis que le code exact de l\'APK est disponible via le commit ci-dessus.\n- Un fichier SHA-256 permet de vérifier l'intégrité de l'APK.
 EOF
 
 latest_flag="--latest=false"
@@ -92,7 +92,7 @@ fi
 gh release create "$tag" \
   "$outdir/release/$asset" "$outdir/release/${asset}.sha256" \
   --repo "$GITHUB_REPOSITORY" \
-  --target "$source_sha" \
+  --target "main" \
   --title "EasyScanner Evolution ${VERSION}" \
   --notes-file "$outdir/notes.md" \
   "$latest_flag"
