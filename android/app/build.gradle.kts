@@ -36,8 +36,8 @@ android {
         applicationId = "com.rawmechatronics.easyscanner.evolution"
         minSdk = rustApi
         targetSdk = 36
-        versionCode = 9
-        versionName = "0.3.1-evolution.5"
+        versionCode = 10
+        versionName = "0.3.1-evolution.5.1"
         ndk { abiFilters += rustAbis }
     }
 
