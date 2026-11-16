@@ -5,12 +5,6 @@ name: APK Android signé (permanent)
 
 on:
   workflow_dispatch:
-  # One-time owner-triggered release V5.1; removed after publication.
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/RELEASE_REQUEST_V5_1.md'
 
 permissions:
   contents: write
